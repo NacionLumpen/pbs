@@ -11,7 +11,7 @@ from textwrap import dedent
 from nose.tools import assert_equal
 from mock import patch, call
 
-import pbs.pbs
+import pbs.pbs as pbs
 
 
 def test_iparse():
