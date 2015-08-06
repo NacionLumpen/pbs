@@ -1,0 +1,1888 @@
+# coding: utf-8
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/QAPage">
+<head>
+
+<title>C dynamically growing array - Stack Overflow</title>
+    <link rel="shortcut icon" href="//cdn.sstatic.net/stackoverflow/img/favicon.ico?v=6cd6089ee7f6">
+    <link rel="apple-touch-icon image_src" href="//cdn.sstatic.net/stackoverflow/img/apple-touch-icon.png?v=41f6e13ade69">
+    <link rel="search" type="application/opensearchdescription+xml" title="Stack Overflow" href="/opensearch.xml">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:domain" content="stackoverflow.com"/>
+    <meta property="og:type" content="website" />
+    <meta property="og:image" itemprop="image primaryImageOfPage" content="http://cdn.sstatic.net/stackoverflow/img/apple-touch-icon@2.png?v=ea71a5211a91&a" />
+    <meta name="twitter:title" property="og:title" itemprop="title name" content="C dynamically growing array" />
+    <meta name="twitter:description" property="og:description" itemprop="description" content="I have a program that reads a &quot;raw&quot; list of in-game entities, and I intend to make an array holding an index number (int) of an indeterminate number of entities, for processing various things. I wo..." />
+    <meta property="og:url" content="http://stackoverflow.com/questions/3536153/c-dynamically-growing-array"/>
+    <link rel="canonical" href="http://stackoverflow.com/questions/3536153/c-dynamically-growing-array" />
+
+    
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="//cdn.sstatic.net/Js/stub.en.js?v=98c1528830bc"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.sstatic.net/stackoverflow/all.css?v=54eda9dffe15">
+
+            <link rel="alternate" type="application/atom+xml" title="Feed for question &#39;C dynamically growing array&#39;" href="/feeds/question/3536153">
+            <meta name="twitter:app:country" content="US" />
+            <meta name="twitter:app:name:iphone" content="Stack Exchange iOS" />
+            <meta name="twitter:app:id:iphone" content="871299723" />
+            <meta name="twitter:app:url:iphone" content="se-zaphod://stackoverflow.com/questions/3536153/c-dynamically-growing-array" />
+            <meta name="twitter:app:name:ipad" content="Stack Exchange iOS" />
+            <meta name="twitter:app:id:ipad" content="871299723" />
+            <meta name="twitter:app:url:ipad" content="se-zaphod://stackoverflow.com/questions/3536153/c-dynamically-growing-array" />
+            <meta name="twitter:app:name:googleplay" content="Stack Exchange Android">
+            <meta name="twitter:app:url:googleplay" content="http://stackoverflow.com/questions/3536153/c-dynamically-growing-array">
+            <meta name="twitter:app:id:googleplay" content="com.stackexchange.marvin">
+        <script>
+        
+            StackExchange.ready(function () {
+                    
+                    StackExchange.using("snippets", function () {
+                        StackExchange.snippets.initSnippetRenderer();
+                    });
+                    
+
+                StackExchange.using("postValidation", function () {
+                    StackExchange.postValidation.initOnBlurAndSubmit($('#post-form'), 2, 'answer');
+                });
+
+                
+                StackExchange.question.init({showAnswerHelp:true,totalCommentCount:4,shownCommentCount:4,highlightColor:'#F4A83D',backgroundColor:'#FFF',questionId:3536153});
+
+                styleCode();
+
+                    StackExchange.realtime.subscribeToQuestion('1', '3536153');
+                                                                    StackExchange.using("gps", function () { StackExchange.gps.trackOutboundClicks('#content', '.post-text'); });
+
+            });
+        </script>
+
+
+    <script>
+        StackExchange.init({"locale":"en","stackAuthUrl":"https://stackauth.com","serverTime":1438882493,"networkMetaHostname":"meta.stackexchange.com","routeName":"Questions/Show","styleCode":true,"enableUserHovercards":true,"snippets":{"enabled":true,"domain":"stacksnippets.net"},"site":{"name":"Stack Overflow","description":"Q&A for professional and enthusiast programmers","isNoticesTabEnabled":true,"recaptchaPublicKey":"6LdchgIAAAAAAJwGpIzRQSOFaO0pU6s44Xt8aTwc","recaptchaAudioLang":"en","enableNewTagCreationWarning":true,"insertSpaceAfterNameTabCompletion":false,"globalAuthDisabled":true,"nonAsciiTags":true,"enableSocialMediaInSharePopup":true},"user":{"fkey":"c8825083cc8f9bd9412bfbfa4961d948","isAnonymous":true}});
+        StackExchange.using.setCacheBreakers({"js/prettify-full.en.js":"ebb6e358bad9","js/moderator.en.js":"daeb6f23f13b","js/full-anon.en.js":"99eadc5441ce","js/full.en.js":"35d3507ae5a0","js/wmd.en.js":"f8c738786e7d","js/third-party/jquery.autocomplete.min.js":"e5f01e97f7c3","js/third-party/jquery.autocomplete.min.en.js":"","js/mobile.en.js":"c8a72f25d315","js/help.en.js":"79fd6664be3b","js/tageditor.en.js":"9c54855bf167","js/tageditornew.en.js":"b8603d4e3501","js/inline-tag-editing.en.js":"fe79c26885f4","js/revisions.en.js":"9e897f24d78d","js/review.en.js":"3a8678b286f5","js/tagsuggestions.en.js":"b278f9a0b23b","js/post-validation.en.js":"8b5037a325ac","js/explore-qlist.en.js":"e7a80905fa22","js/events.en.js":"2064330b930c","js/keyboard-shortcuts.en.js":"e2c3496f9dcf","js/external-editor.en.js":"b9c06b8a4073","js/external-editor.en.js":"b9c06b8a4073","js/snippet-javascript.en.js":"0a74681b16bf","js/snippet-javascript-codemirror.en.js":"3c60decac377"});
+        StackExchange.using("gps", function() {
+             StackExchange.gps.init(true);
+        });
+    </script>
+    
+        <script>
+            StackExchange.ready(function () {
+                $('#nav-tour').click(function () {
+                    StackExchange.using("gps", function() {
+                        StackExchange.gps.track("aboutpage.click", { aboutclick_location: "headermain" }, true);
+                    });
+                });
+            });
+        </script>
+    
+    
+</head>
+<body class="question-page new-topbar">
+    <noscript><div id="noscript-padding"></div></noscript>
+    <div id="notify-container"></div>
+    <div id="overlay-header"></div>
+    <div id="custom-header"></div>
+
+
+
+
+<div class="topbar">
+    <div class="topbar-wrapper">
+
+        <div class="js-topbar-dialog-corral">
+
+<div class="topbar-dialog siteSwitcher-dialog dno">
+    <div class="header">
+        <h3><a href="//stackoverflow.com">current community</a></h3>
+    </div>
+    <div class="modal-content current-site-container">
+        <ul class="current-site">
+                <li>
+                        <div class="related-links">
+            <a href="http://chat.stackoverflow.com" class="js-gps-track"     data-gps-track="site_switcher.click({ item_type:6 })"
+>chat</a>
+                    <a href="http://blog.stackoverflow.com" class="js-gps-track"     data-gps-track="site_switcher.click({ item_type:7 })"
+>blog</a>
+            </div>
+
+
+
+
+    <a href="//stackoverflow.com"
+       class="current-site-link site-link js-gps-track"
+       data-id="1"
+       data-gps-track="
+        site_switcher.click({ item_type:3 })">
+        <div class="site-icon favicon favicon-stackoverflow" title="Stack Overflow"></div>
+        Stack Overflow
+    </a>
+
+                </li>
+                <li class="related-site">
+                        <div class="L-shaped-icon-container">
+        <span class="L-shaped-icon"></span>
+    </div>
+
+                    
+
+
+
+    <a href="http://meta.stackoverflow.com"
+       class="site-link js-gps-track"
+       data-id="552"
+       data-gps-track="
+            site.switch({ target_site:552, item_type:3 }),
+        site_switcher.click({ item_type:4 })">
+        <div class="site-icon favicon favicon-stackoverflowmeta" title="Meta Stack Overflow"></div>
+        Meta Stack Overflow
+    </a>
+
+                </li>
+                            <li class="related-site">
+                        <div class="L-shaped-icon-container">
+        <span class="L-shaped-icon"></span>
+    </div>
+
+                    <a class="site-link js-gps-track"
+                       href="//careers.stackoverflow.com?utm_source=stackoverflow.com&amp;utm_medium=site-ui&amp;utm_campaign=multicollider"
+                            data-gps-track="site_switcher.click({ item_type:9 })"
+>
+                        <div class="site-icon favicon favicon-careers" title="Stack Overflow Careers"></div>
+                        Stack Overflow Careers
+                    </a>
+                </li>
+        </ul>
+    </div>
+    
+    <div class="header" id="your-communities-header">
+        <h3>
+your communities        </h3>
+            
+    </div>
+    <div class="modal-content" id="your-communities-section">
+            
+            <div class="call-to-login">
+<a href="https://stackoverflow.com/users/signup?returnurl=http%3a%2f%2fstackoverflow.com%2fquestions%2f3536153%2fc-dynamically-growing-array%3fanswertab%3dvotes" class="login-link js-gps-track"     data-gps-track="site_switcher.click({ item_type:10 })"
+>Sign up</a> or <a href="https://stackoverflow.com/users/login?returnurl=http%3a%2f%2fstackoverflow.com%2fquestions%2f3536153%2fc-dynamically-growing-array%3fanswertab%3dvotes" class="login-link js-gps-track"     data-gps-track="site_switcher.click({ item_type:11 })"
+>log in</a> to customize your list.
+            </div>
+    </div>
+    
+    <div class="header">
+        <h3><a href="//stackexchange.com/sites">more stack exchange communities</a></h3>
+    </div>
+    <div class="modal-content">
+            <div class="child-content"></div>
+    </div>
+</div>
+        </div>
+
+        <div class="network-items">
+
+            <a href="//stackexchange.com"
+               class="topbar-icon icon-site-switcher yes-hover js-site-switcher-button js-gps-track"
+               data-gps-track="site_switcher.show"
+               title="A list of all 149 Stack Exchange sites">
+                <span class="hidden-text">Stack Exchange</span>
+            </a>
+
+        </div>
+
+        <div class="topbar-links">
+
+                <div class="links-container">
+                <span class="topbar-menu-links">
+                                <a href="https://stackoverflow.com/users/signup?returnurl=http%3a%2f%2fstackoverflow.com%2fquestions%2f3536153%2fc-dynamically-growing-array%3fanswertab%3dvotes" class="login-link">sign up</a>
+                                <a href="https://stackoverflow.com/users/login?returnurl=http%3a%2f%2fstackoverflow.com%2fquestions%2f3536153%2fc-dynamically-growing-array%3fanswertab%3dvotes" class="login-link">log in</a>
+
+                        <a href="/tour">tour</a>
+                            <a href="#" class="icon-help js-help-button" title="Help Center and other resources">
+        help
+        <span class="triangle"></span>
+    </a>
+    <div class="topbar-dialog help-dialog js-help-dialog dno">
+        <div class="modal-content">
+            <ul>
+                                    <li>
+                        <a href="/tour" class="js-gps-track" data-gps-track="help_popup.click({ item_type:1 })">
+                            Tour
+                            <span class="item-summary">
+                                Start here for a quick overview of the site
+                            </span>
+                        </a>
+                    </li>
+                <li>
+                    <a href="/help" class="js-gps-track" data-gps-track="help_popup.click({ item_type:4 })">
+                        Help Center
+                        <span class="item-summary">
+                            Detailed answers to any questions you might have
+                        </span>
+                    </a>
+                </li>
+                    <li>
+                        <a href="//meta.stackoverflow.com" class="js-gps-track" data-gps-track="help_popup.click({ item_type:2 })">
+                            Meta
+                            <span class="item-summary">
+                                Discuss the workings and policies of this site
+                            </span>
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+
+                            <a href="//careers.stackoverflow.com?utm_source=stackoverflow.com&amp;utm_medium=site-ui&amp;utm_campaign=anon-topbar">stack overflow careers</a>
+                    </span>
+                </div>
+
+            <div class="search-container">
+                <form id="search" action="/search" method="get" autocomplete="off">
+                    <input name="q" type="text" placeholder="search" value="" tabindex="1" autocomplete="off" maxlength="240" />
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+    <script>
+        StackExchange.ready(function() { StackExchange.topbar.init(); });
+    </script>
+
+    <div class="container">
+        <div id="header">
+            <br class="cbt">
+            <div id="hlogo">
+                <a href="/" >
+                    Stack Overflow
+                </a>
+            </div>
+            <div id="hmenus">
+                <div class="nav mainnavs">
+                    <ul>
+                        <li class="youarehere"><a id="nav-questions" href="/questions">Questions</a></li>
+                        <li><a id="nav-tags" href="/tags">Tags</a></li>
+                        <li><a id="nav-users" href="/users">Users</a></li>
+                        <li><a id="nav-badges" href="/help/badges">Badges</a></li>
+                        <li><a id="nav-unanswered" href="/unanswered">Unanswered</a></li>
+                    </ul>
+                </div>
+                <div class="nav askquestion">
+                    <ul>
+                        <li>
+                            <a id="nav-askquestion"  href="/questions/ask">Ask Question</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+
+
+
+        <div id="content" class="snippet-hidden">
+            
+
+<div itemscope itemtype="http://schema.org/Question">
+    <link itemprop="image" href="//cdn.sstatic.net/stackoverflow/img/apple-touch-icon.png?v=41f6e13ade69">
+			<!--googleoff: all-->
+
+<div id="herobox-mini">
+    <div id="hero-content">
+        <span id="controls">
+            <a href="/tour" id="tell-me-more" class="button">Take the 2-minute tour</a>
+            <span id="close"><a title="click to dismiss">&times;</a></span>
+        </span>
+        <div id="blurb">
+            Stack Overflow is a question and answer site for professional and enthusiast programmers. It&#39;s 100% free.
+        </div>        
+    </div>
+    <script>
+        $('#tell-me-more').click(function () {
+            var clickSource = $("body").attr("class") + '-mini';
+            if ($("body").hasClass("questions-page")) {
+                clickSource = 'questionpagemini';
+            } else if ($("body").hasClass("question-page")) {
+                clickSource = 'questionpagemini';
+            } else if ($("body").hasClass("home-page")) {
+                clickSource = 'homepagemini';
+            }
+
+            StackExchange.using("gps", function () {
+                StackExchange.gps.track("aboutpage.click", { aboutclick_location: clickSource } , true);
+            });
+        });
+        $('#herobox-mini #close').click(function () {
+            StackExchange.using("gps", function () {
+                StackExchange.gps.track("hero.action", { hero_action_type: "close" }, true);
+            });
+            $.cookie("hero", "none", { path: "/", expires: 365 });
+            var $hero = $("#herobox-mini");
+            $hero.slideUp('fast', function () { $hero.remove(); });
+            return false;
+        });
+    </script>
+</div>
+			<!--googleon: all-->
+			<div id="question-header">
+                <h1 itemprop="name"><a href="/questions/3536153/c-dynamically-growing-array" class="question-hyperlink">C dynamically growing array</a></h1>
+		</div>
+			<div id="mainbar">
+
+			
+
+<div class="question" data-questionid="3536153"  id="question">
+
+    <script>
+                var ados = ados || {}; ados.run = ados.run || [];
+                ados.run.push(function () { ados_add_placement(22,8277,"adzerk77420068",4).setZone(43); });
+            </script>
+            <div class="everyonelovesstackoverflow" id="adzerk77420068">
+            </div>    <table>
+        <tr>
+            <td class="votecell">
+                
+
+<div class="vote">
+        <input type="hidden" name="_id_" value="3536153">
+        <a class="vote-up-off" title="This question shows research effort; it is useful and clear">up vote</a>
+        <span itemprop="upvoteCount" class="vote-count-post ">53</span>
+        <a class="vote-down-off" title="This question does not show any research effort; it is unclear or not useful">down vote</a>
+
+        <a class="star-off" href="#" title="This is a favorite question (click again to undo)">favorite</a>
+        <div class="favoritecount"><b>30</b></div>
+
+
+</div>
+
+            </td>
+            
+<td class="postcell">
+<div>
+    <div class="post-text" itemprop="text">
+
+<p>I have a program that reads a "raw" list of in-game entities, and I intend to make an array holding an index number (int) of an indeterminate number of entities, for processing various things. I would like to avoid using too much memory or CPU for keeping such indexes...</p>
+
+<p>A quick and dirty solution I use so far is to declare, in the main processing function (local focus) the array with a size of the maximum game entities, and another integer to keep track of how many have been added to the list.
+This isn't satisfactory, as every list holds 3000+ arrays, which isn't that much, but feels like a waste, since I'll possible use the solution for 6-7 lists for varying functions.</p>
+
+<p>I haven't found any C (not C++ or C#) specific solutions to achieve this. I can use pointers, but I am a bit afraid of using them (unless it's the only possible way).</p>
+
+<p>The arrays do not leave the local function scope (they are to be passed to a function, then discarded), in case that changes things.</p>
+
+<p>If pointers are the only solution, how can I keep track of them to avoid leaks?</p>
+    </div>
+    <div class="post-taglist">
+        <a href="/questions/tagged/c" class="post-tag" title="show questions tagged &#39;c&#39;" rel="tag">c</a> <a href="/questions/tagged/dynamic-arrays" class="post-tag" title="show questions tagged &#39;dynamic-arrays&#39;" rel="tag">dynamic-arrays</a> 
+    </div>
+    <table class="fw">
+    <tr>
+    <td class="vt">
+<div class="post-menu"><a href="/q/3536153" title="short permalink to this question" class="short-link" id="link-post-3536153">share</a><span class="lsep">|</span><a href="/posts/3536153/edit" class="suggest-edit-post" title="">improve this question</a></div>        
+    </td>
+    <td class="post-signature owner">
+        <div class="user-info ">
+    <div class="user-action-time">
+        asked <span title="2010-08-21 03:23:53Z" class="relativetime">Aug 21 '10 at 3:23</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="/users/426912/balkania"><div class="gravatar-wrapper-32"><img src="https://www.gravatar.com/avatar/bfba18494ff430d4694380f97a5106a3?s=32&amp;d=identicon&amp;r=PG" alt="" width="32" height="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="/users/426912/balkania">Balkania</a><br>
+        <span class="reputation-score" title="reputation score " dir="ltr">295</span><span title="1 gold badge"><span class="badge1"></span><span class="badgecount">1</span></span><span title="5 silver badges"><span class="badge2"></span><span class="badgecount">5</span></span><span title="6 bronze badges"><span class="badge3"></span><span class="badgecount">6</span></span>
+    </div>
+</div>
+    </td>
+    </tr>
+    </table>
+</div>
+</td>
+        </tr>
+                
+<tr>
+    <td class="votecell"></td>
+    <td>
+	    <div id="comments-3536153" class="comments ">
+		    <table>
+                <tbody data-remaining-comments-count="0"
+                       data-canpost="false"
+                       data-cansee="true"
+                       data-comments-unavailable="false"
+                       data-addlink-disabled="true">
+
+
+
+    <tr id="comment-3701196" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">This is a (very, very small) problem in C, but how did you miss all the C++ and C# solutions for this?</span>
+                &ndash;&nbsp;
+                    <a href="/users/20862/ignacio-vazquez-abrams"
+                       title="372452 reputation"
+                       class="comment-user">Ignacio Vazquez-Abrams</a>
+                <span class="comment-date" dir="ltr"><span title="2010-08-21 03:28:04Z" class="relativetime-clean">Aug 21 '10 at 3:28</span></span>
+                                                                            </div>
+                    </td>
+    </tr>
+    <tr id="comment-3701297" class="comment ">
+        <td class="comment-actions">
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                <span title="number of &#39;useful comment&#39; votes received"
+                                      class="warm">6</span>
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">&quot;If pointers are the only solution, how can I keep track of them to avoid leaks?&quot; Care, attention, and valgrind. This is exactly why people are so afraid if C in the first place.</span>
+                &ndash;&nbsp;
+                    <a href="/users/60777/chris-lutz"
+                       title="38359 reputation"
+                       class="comment-user">Chris Lutz</a>
+                <span class="comment-date" dir="ltr"><span title="2010-08-21 04:00:12Z" class="relativetime-clean">Aug 21 '10 at 4:00</span></span>
+                                                                            </div>
+                    </td>
+    </tr>
+    <tr id="comment-3701350" class="comment ">
+        <td class="comment-actions">
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                <span title="number of &#39;useful comment&#39; votes received"
+                                      class="warm">7</span>
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">You cannot use C effectively without using pointers. Don&#39;t be afraid.</span>
+                &ndash;&nbsp;
+                    <a href="/users/28494/qrdl"
+                       title="19933 reputation"
+                       class="comment-user">qrdl</a>
+                <span class="comment-date" dir="ltr"><span title="2010-08-21 04:17:06Z" class="relativetime-clean">Aug 21 '10 at 4:17</span></span>
+                                                                            </div>
+                    </td>
+    </tr>
+    <tr id="comment-3701696" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">without big libs only one function for all also for structs eg: <a href="http://stackoverflow.com/questions/3456446/a-good-c-equivalent-of-stl-vector/3463498#3463498" title="a good c equivalent of stl vector">stackoverflow.com/questions/3456446/&hellip;</a></span>
+                &ndash;&nbsp;
+                    <a href="/users/411313/user411313"
+                       title="2106 reputation"
+                       class="comment-user">user411313</a>
+                <span class="comment-date" dir="ltr"><span title="2010-08-21 06:45:42Z" class="relativetime-clean">Aug 21 '10 at 6:45</span></span>
+                                                                            </div>
+                    </td>
+    </tr>
+                </tbody>
+		    </table>
+	    </div>
+
+        <div id="comments-link-3536153" data-rep=50 data-anon=true>
+
+                <a class="js-add-link comments-link disabled-link "
+                   title="Use comments to ask for more information or suggest improvements. Avoid answering questions in comments."
+                   >add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link dno" title="expand to show all comments on this post" href=# onclick=""></a>
+        </div>         
+    </td>
+</tr>        </table>
+</div>
+
+			<div id="answers">
+
+				<a name="tab-top"></a>
+				<div id="answers-header">
+					<div class="subheader answers-subheader">
+						<h2>
+								3 Answers
+                                <span style="display:none;" itemprop="answerCount">3</span>
+						</h2>
+						<div>
+							<div id="tabs">
+        <a href="/questions/3536153/c-dynamically-growing-array?answertab=active#tab-top" data-nav-xhref="" title="Answers with the latest activity first" data-value="active">active</a>
+        <a href="/questions/3536153/c-dynamically-growing-array?answertab=oldest#tab-top" data-nav-xhref="" title="Answers in the order they were provided" data-value="oldest">oldest</a>
+        <a class="youarehere" href="/questions/3536153/c-dynamically-growing-array?answertab=votes#tab-top" data-nav-xhref="" title="Answers with the highest score first" data-value="votes">votes</a>
+</div>
+						</div>
+					</div>    
+				</div>    
+
+
+
+
+  
+<a name="3536261"></a>
+<div id="answer-3536261" class="answer accepted-answer" data-answerid="3536261"  itemscope itemtype="http://schema.org/Answer" itemprop="acceptedAnswer">
+
+    <table>
+        <tr>
+            <td class="votecell">
+                
+
+<div class="vote">
+        <input type="hidden" name="_id_" value="3536261">
+        <a class="vote-up-off" title="This answer is useful">up vote</a>
+        <span itemprop="upvoteCount" class="vote-count-post ">84</span>
+        <a class="vote-down-off" title="This answer is not useful">down vote</a>
+
+
+
+        <span class="vote-accepted-on load-accepted-answer-date" title="loading when this answer was accepted...">accepted</span>
+
+</div>
+
+            </td>
+            
+
+
+<td class="answercell">
+    <div class="post-text" itemprop="text">
+<blockquote>
+  <p>I can use pointers, but I am a bit afraid of using them.</p>
+</blockquote>
+
+<p>If you need a dynamic array, you can't escape pointers. Why are you afraid though? They won't bite (as long as you're careful, that is). There's no built-in dynamic array in C, you'll just have to write one yourself. In C++, you can use the built-in <a href="http://en.cppreference.com/w/cpp/container/vector"><code>std::vector</code></a> class. C# and just about every other high-level language also have some similar class that manages dynamic arrays for you.</p>
+
+<p>If you do plan to write your own, here's something to get you started: most dynamic array implementations work by starting off with an array of some (small) default size, then whenever you run out of space when adding a new element, double the size of the array. As you can see in the example below, it's not very difficult at all: (I've omitted safety checks for brevity)</p>
+
+<pre><code>typedef struct {
+  int *array;
+  size_t used;
+  size_t size;
+} Array;
+
+void initArray(Array *a, size_t initialSize) {
+  a-&gt;array = (int *)malloc(initialSize * sizeof(int));
+  a-&gt;used = 0;
+  a-&gt;size = initialSize;
+}
+
+void insertArray(Array *a, int element) {
+  if (a-&gt;used == a-&gt;size) {
+    a-&gt;size *= 2;
+    a-&gt;array = (int *)realloc(a-&gt;array, a-&gt;size * sizeof(int));
+  }
+  a-&gt;array[a-&gt;used++] = element;
+}
+
+void freeArray(Array *a) {
+  free(a-&gt;array);
+  a-&gt;array = NULL;
+  a-&gt;used = a-&gt;size = 0;
+}
+</code></pre>
+
+<p>Using it is just as simple:</p>
+
+<pre><code>Array a;
+int i;
+
+initArray(&amp;a, 5);  // initially 5 elements
+for (i = 0; i &lt; 100; i++)
+  insertArray(&amp;a, i);  // automatically resizes as necessary
+printf("%d\n", a.array[9]);  // print 10th element
+printf("%d\n", a.used);  // print number of elements
+freeArray(&amp;a);
+</code></pre>
+    </div>
+    <table class="fw">
+    <tr>
+    <td class="vt">
+<div class="post-menu"><a href="/a/3536261" title="short permalink to this answer" class="short-link" id="link-post-3536261">share</a><span class="lsep">|</span><a href="/posts/3536261/edit" class="suggest-edit-post" title="">improve this answer</a></div>                    </td>
+    <td align="right" class="post-signature">
+<div class="user-info ">
+    <div class="user-action-time">
+        <a href="/posts/3536261/revisions" title="show all edits to this post">edited <span title="2013-08-31 22:18:29Z" class="relativetime">Aug 31 '13 at 22:18</span></a>
+    </div>
+    <div class="user-gravatar32">
+        <span class="anonymous-gravatar"></span>
+    </div>
+    <div class="user-details">
+        user283145<br>
+        
+    </div>
+</div>    </td>
+            
+
+
+    <td align="right" class="post-signature">   
+       
+
+    <div class="user-info ">
+    <div class="user-action-time">
+        answered <span title="2010-08-21 04:01:22Z" class="relativetime">Aug 21 '10 at 4:01</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="/users/381345/casablanca"><div class="gravatar-wrapper-32"><img src="https://www.gravatar.com/avatar/45c320428f094efa664f50b3b5e8d8ba?s=32&amp;d=identicon&amp;r=PG" alt="" width="32" height="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="/users/381345/casablanca">casablanca</a><br>
+        <span class="reputation-score" title="reputation score 45278" dir="ltr">45.3k</span><span title="3 gold badges"><span class="badge1"></span><span class="badgecount">3</span></span><span title="59 silver badges"><span class="badge2"></span><span class="badgecount">59</span></span><span title="110 bronze badges"><span class="badge3"></span><span class="badgecount">110</span></span>
+    </div>
+</div>
+    </td>
+    </tr>
+    </table>
+</td>
+        </tr>
+        
+<tr>
+    <td class="votecell"></td>
+    <td>
+	    <div id="comments-3536261" class="comments ">
+		    <table>
+                <tbody data-remaining-comments-count="0"
+                       data-canpost="false"
+                       data-cansee="true"
+                       data-comments-unavailable="false"
+                       data-addlink-disabled="true">
+
+
+
+    <tr id="comment-3702610" class="comment ">
+        <td class="comment-actions">
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                <span title="number of &#39;useful comment&#39; votes received"
+                                      class="cool">1</span>
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">Thanks for the sample code. I implemented the specific function using a big array, but will implement other similar things using this, and after I get it controlled, change the others back :)</span>
+                &ndash;&nbsp;
+                    <a href="/users/426912/balkania"
+                       title="295 reputation"
+                       class="comment-user owner">Balkania</a>
+                <span class="comment-date" dir="ltr"><span title="2010-08-21 11:02:40Z" class="relativetime-clean">Aug 21 '10 at 11:02</span></span>
+                                                                            </div>
+                    </td>
+    </tr>
+    <tr id="comment-19901150" class="comment ">
+        <td class="comment-actions">
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                <span title="number of &#39;useful comment&#39; votes received"
+                                      class="cool">1</span>
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">Thanks a lot for the code. A <code>removeArray</code> method that gets rid of the last element would also be neat. If you allow it, I will add it to your code sample.</span>
+                &ndash;&nbsp;
+                    <a href="/users/1137043/brimborium"
+                       title="5231 reputation"
+                       class="comment-user">brimborium</a>
+                <span class="comment-date" dir="ltr"><span title="2013-01-14 16:15:23Z" class="relativetime-clean">Jan 14 '13 at 16:15</span></span>
+                                                                            </div>
+                    </td>
+    </tr>
+    <tr id="comment-23267523" class="comment ">
+        <td class="comment-actions">
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                <span title="number of &#39;useful comment&#39; votes received"
+                                      class="cool">3</span>
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">%d and size_t... bit of a no-no there.  If you use C99 or later, can take advantage of the addition of %z</span>
+                &ndash;&nbsp;
+                    <a href="/users/2159730/randy-howard"
+                       title="1654 reputation"
+                       class="comment-user">Randy Howard</a>
+                <span class="comment-date" dir="ltr"><span title="2013-04-28 07:30:39Z" class="relativetime-clean">Apr 28 '13 at 7:30</span></span>
+                                                                            </div>
+                    </td>
+    </tr>
+    <tr id="comment-39796939" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">Never omit safety checks with memory allocation and reallocation.</span>
+                &ndash;&nbsp;
+                    <a href="/users/19410/alex-reynolds"
+                       title="51725 reputation"
+                       class="comment-user">Alex Reynolds</a>
+                <span class="comment-date" dir="ltr"><span title="2014-08-26 00:56:01Z" class="relativetime-clean">Aug 26 '14 at 0:56</span></span>
+                                                                            </div>
+                    </td>
+    </tr>
+    <tr id="comment-40403930" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">I don&#39;t think your size would ever grow from zero because it&#39;s only multiplicative (ie 0*2 = 0). Adding a constant helps avoid lots of scrappy copies at the start and prevents this bootstraping issue. I would also recommend usually using a smaller multiplier than 2, to avoid risking wasting lots of space. n = (n*3)/2+8 is my usual favourite. But seriously, if you want to do something in C you need to get unscared of situations like this quick or change language. Using pointers is different to modern languages and can be confusing, but it&#39;s not complicated. I&#39;m sure you&#39;ll be able to get it.</span>
+                &ndash;&nbsp;
+                    <a href="/users/3235905/dan-sheppard"
+                       title="144 reputation"
+                       class="comment-user">Dan Sheppard</a>
+                <span class="comment-date" dir="ltr"><span title="2014-09-13 19:15:23Z" class="relativetime-clean">Sep 13 '14 at 19:15</span></span>
+                                                                            </div>
+                    </td>
+    </tr>
+                </tbody>
+		    </table>
+	    </div>
+
+        <div id="comments-link-3536261" data-rep=50 data-anon=true>
+
+                <a class="js-add-link comments-link disabled-link "
+                   title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”."
+                   >add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link dno" title="expand to show all comments on this post" href=# onclick=""></a>
+        </div>         
+    </td>
+</tr>    </table>
+</div>
+<script>
+                var ados = ados || {}; ados.run = ados.run || [];
+                ados.run.push(function () { ados_add_placement(22,8277,"adzerk1271844638",4).setZone(44); });
+            </script>
+            <div class="everyonelovesstackoverflow" id="adzerk1271844638">
+            </div>
+  
+<a name="3536168"></a>
+<div id="answer-3536168" class="answer" data-answerid="3536168"  itemscope itemtype="http://schema.org/Answer">
+
+    <table>
+        <tr>
+            <td class="votecell">
+                
+
+<div class="vote">
+        <input type="hidden" name="_id_" value="3536168">
+        <a class="vote-up-off" title="This answer is useful">up vote</a>
+        <span itemprop="upvoteCount" class="vote-count-post ">5</span>
+        <a class="vote-down-off" title="This answer is not useful">down vote</a>
+
+
+
+
+</div>
+
+            </td>
+            
+
+
+<td class="answercell">
+    <div class="post-text" itemprop="text">
+<p>There are a couple of options I can think of.</p>
+
+<ol>
+<li>Linked List. You can use a linked list to make a dynamically growing array like thing. But you won't be able to do <code>array[100]</code> without having to walk through <code>1-99</code> first. And it might not be that handy for you to use either.</li>
+<li>Large array. Simply create an array with more than enough space for everything</li>
+<li>Resizing array. Recreate the array once you know the size and/or create a new array every time you run out of space with some margin and copy all the data to the new array.</li>
+<li>Linked List Array combination. Simply use an array with a fixed size and once you run out of space, create a new array and link to that (it would be wise to keep track of the array and the link to the next array in a struct).</li>
+</ol>
+
+<p>It is hard to say what option would be best in your situation. Simply creating a large array is ofcourse one of the easiest solutions and shouldn't give you much problems unless it's really large.</p>
+    </div>
+    <table class="fw">
+    <tr>
+    <td class="vt">
+<div class="post-menu"><a href="/a/3536168" title="short permalink to this answer" class="short-link" id="link-post-3536168">share</a><span class="lsep">|</span><a href="/posts/3536168/edit" class="suggest-edit-post" title="">improve this answer</a></div>                    </td>
+            
+
+
+    <td align="right" class="post-signature">   
+       
+
+    <div class="user-info user-hover">
+    <div class="user-action-time">
+        answered <span title="2010-08-21 03:31:44Z" class="relativetime">Aug 21 '10 at 3:31</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="/users/54017/wolph"><div class="gravatar-wrapper-32"><img src="https://www.gravatar.com/avatar/a010849a3b3a58bc7c2489f44bf22387?s=32&amp;d=identicon&amp;r=PG" alt="" width="32" height="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="/users/54017/wolph">Wolph</a><br>
+        <span class="reputation-score" title="reputation score 35522" dir="ltr">35.5k</span><span title="4 gold badges"><span class="badge1"></span><span class="badgecount">4</span></span><span title="57 silver badges"><span class="badge2"></span><span class="badgecount">57</span></span><span title="87 bronze badges"><span class="badge3"></span><span class="badgecount">87</span></span>
+    </div>
+</div>
+    </td>
+    </tr>
+    </table>
+</td>
+        </tr>
+        
+<tr>
+    <td class="votecell"></td>
+    <td>
+	    <div id="comments-3536168" class="comments ">
+		    <table>
+                <tbody data-remaining-comments-count="1"
+                       data-canpost="false"
+                       data-cansee="true"
+                       data-comments-unavailable="false"
+                       data-addlink-disabled="true">
+
+
+
+    <tr id="comment-3701215" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">How does seven arrays of 3264 integers sound for a modern-ish 2D game? If I am just being paranoid, the solution would be large array.</span>
+                &ndash;&nbsp;
+                    <a href="/users/426912/balkania"
+                       title="295 reputation"
+                       class="comment-user owner">Balkania</a>
+                <span class="comment-date" dir="ltr"><span title="2010-08-21 03:34:27Z" class="relativetime-clean">Aug 21 '10 at 3:34</span></span>
+                                                                            </div>
+                    </td>
+    </tr>
+    <tr id="comment-3701216" class="comment ">
+        <td class="comment-actions">
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                <span title="number of &#39;useful comment&#39; votes received"
+                                      class="cool">1</span>
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">Both #1 and #4 here require using pointers and dynamic memory allocation anyhow.  I suggest using <code>realloc</code> with #3 - allocate the array a normal size, and then grow it whenever you run out.  <code>realloc</code> will handle copying your data if necessary.  As for the OP&#39;s question on memory management, you just need to <code>malloc</code> once at the start, <code>free</code> once at the end, and <code>realloc</code> each time you run out of room.  It&#39;s not too bad.</span>
+                &ndash;&nbsp;
+                    <a href="/users/383402/borealid"
+                       title="41919 reputation"
+                       class="comment-user">Borealid</a>
+                <span class="comment-date" dir="ltr"><span title="2010-08-21 03:34:33Z" class="relativetime-clean">Aug 21 '10 at 3:34</span></span>
+                                                                            </div>
+                    </td>
+    </tr>
+    <tr id="comment-3701218" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">@Balkania: seven arrays of 3264 integers is a hair under 100KB.  That&#39;s not very much memory at all.</span>
+                &ndash;&nbsp;
+                    <a href="/users/383402/borealid"
+                       title="41919 reputation"
+                       class="comment-user">Borealid</a>
+                <span class="comment-date" dir="ltr"><span title="2010-08-21 03:35:41Z" class="relativetime-clean">Aug 21 '10 at 3:35</span></span>
+                                                                            </div>
+                    </td>
+    </tr>
+    <tr id="comment-3701230" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">@Borealid: Hoh, I should really forget my ancient quickbasic times :P I&#39;ll try to go for the large array to test the system, and dare venturing into the malloc later, I&#39;ll need to read a bit.</span>
+                &ndash;&nbsp;
+                    <a href="/users/426912/balkania"
+                       title="295 reputation"
+                       class="comment-user owner">Balkania</a>
+                <span class="comment-date" dir="ltr"><span title="2010-08-21 03:38:28Z" class="relativetime-clean">Aug 21 '10 at 3:38</span></span>
+                                                                            </div>
+                    </td>
+    </tr>
+    <tr id="comment-3701285" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">@Balkania: <code>7 * 3264 * 32 bit</code> sounds like <code>91.39 kilobytes</code>. Not that much by any standard these days ;)</span>
+                &ndash;&nbsp;
+                    <a href="/users/54017/wolph"
+                       title="35522 reputation"
+                       class="comment-user">Wolph</a>
+                <span class="comment-date" dir="ltr"><span title="2010-08-21 03:57:22Z" class="relativetime-clean">Aug 21 '10 at 3:57</span></span>
+                                                                            </div>
+                    </td>
+    </tr>
+                </tbody>
+		    </table>
+	    </div>
+
+        <div id="comments-link-3536168" data-rep=50 data-anon=true>
+
+                <a class="js-add-link comments-link  dno"
+                   title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”."
+                   ></a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link " title="expand to show all comments on this post" href=# onclick="">show <b>1</b> more comment</a>
+        </div>         
+    </td>
+</tr>    </table>
+</div>
+
+  
+<a name="3536198"></a>
+<div id="answer-3536198" class="answer" data-answerid="3536198"  itemscope itemtype="http://schema.org/Answer">
+
+    <table>
+        <tr>
+            <td class="votecell">
+                
+
+<div class="vote">
+        <input type="hidden" name="_id_" value="3536198">
+        <a class="vote-up-off" title="This answer is useful">up vote</a>
+        <span itemprop="upvoteCount" class="vote-count-post ">1</span>
+        <a class="vote-down-off" title="This answer is not useful">down vote</a>
+
+
+
+
+</div>
+
+            </td>
+            
+
+
+<td class="answercell">
+    <div class="post-text" itemprop="text">
+<p>When you're saying</p>
+
+<blockquote>
+  <p>make an array holding an index number (int) of an indeterminate number of entities</p>
+</blockquote>
+
+<p>you're basically saying you're using "pointers", but one which is a array-wide local pointer instead of memory-wide pointer. Since you're conceptually already using "pointers" (i.e. id numbers that refers to an element in an array), why don't you just use regular pointers (i.e. id numbers that refers to an element in the biggest array: the whole memory).</p>
+
+<p>Instead of your objects storing a resource id numbers, you can make them store a pointer instead. Basically the same thing, but much more efficient since we avoid turning "array + index" into a "pointer".</p>
+
+<p>Pointers are not scary if you think of them as array index for the whole memory (which is what they actually are)</p>
+    </div>
+    <table class="fw">
+    <tr>
+    <td class="vt">
+<div class="post-menu"><a href="/a/3536198" title="short permalink to this answer" class="short-link" id="link-post-3536198">share</a><span class="lsep">|</span><a href="/posts/3536198/edit" class="suggest-edit-post" title="">improve this answer</a></div>                    </td>
+            
+
+
+    <td align="right" class="post-signature">   
+       
+
+    <div class="user-info ">
+    <div class="user-action-time">
+        answered <span title="2010-08-21 03:44:24Z" class="relativetime">Aug 21 '10 at 3:44</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="/users/309412/lie-ryan"><div class="gravatar-wrapper-32"><img src="https://www.gravatar.com/avatar/e9739ec5574d9977b522d1c80fb8de84?s=32&amp;d=identicon&amp;r=PG" alt="" width="32" height="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="/users/309412/lie-ryan">Lie Ryan</a><br>
+        <span class="reputation-score" title="reputation score 29684" dir="ltr">29.7k</span><span title="7 gold badges"><span class="badge1"></span><span class="badgecount">7</span></span><span title="49 silver badges"><span class="badge2"></span><span class="badgecount">49</span></span><span title="97 bronze badges"><span class="badge3"></span><span class="badgecount">97</span></span>
+    </div>
+</div>
+    </td>
+    </tr>
+    </table>
+</td>
+        </tr>
+        
+<tr>
+    <td class="votecell"></td>
+    <td>
+	    <div id="comments-3536198" class="comments  dno">
+		    <table>
+                <tbody data-remaining-comments-count="0"
+                       data-canpost="false"
+                       data-cansee="true"
+                       data-comments-unavailable="false"
+                       data-addlink-disabled="true">
+
+                        <tr><td></td><td></td></tr>
+                </tbody>
+		    </table>
+	    </div>
+
+        <div id="comments-link-3536198" data-rep=50 data-anon=true>
+
+                <a class="js-add-link comments-link disabled-link "
+                   title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”."
+                   >add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link dno" title="expand to show all comments on this post" href=# onclick=""></a>
+        </div>         
+    </td>
+</tr>    </table>
+</div>
+									<a name='new-answer'></a>
+						<form id="post-form" action="/questions/3536153/answer/submit" method="post"  class="post-form">
+						    <input type="hidden" id="post-id" value="3536153" />
+                            <input type="hidden" id="qualityBanWarningShown" name="qualityBanWarningShown" value="false" />
+                            <input type="hidden" name="referrer" value=""/>
+							<h2 class="space">Your Answer</h2>
+
+
+
+            <script>
+            StackExchange.ifUsing("editor", function () {
+                StackExchange.using("externalEditor", function () {
+                    StackExchange.using("snippets", function () {
+                        StackExchange.snippets.init();
+                    });
+                });
+            }, "code-snippets");
+        </script>
+    
+
+<script>
+    StackExchange.ready(function() {
+        initTagRenderer("".split(" "), "".split(" "));
+       
+        StackExchange.using("externalEditor", function() {
+            // Have to fire editor after snippets, if snippets enabled
+            if (StackExchange.options.snippets.enabled) {
+                StackExchange.using("snippets", function() {
+                    createEditor();
+                });
+            }
+            else {
+                createEditor();
+            }
+        });
+
+        function createEditor() {
+            prepareEditor({
+                heartbeatType: 'answer',
+                bindNavPrevention: true,
+                postfix: "",
+                    onDemand: true,
+                    discardSelector: ".discard-answer"
+                ,immediatelyShowMarkdownHelp:true
+                });
+                
+
+        }
+    });  
+</script>
+
+
+<div id="post-editor" class="post-editor js-post-editor">
+
+    <div style="position: relative;">     
+        <div class="wmd-container">
+            <div id="wmd-button-bar" class="wmd-button-bar"></div>
+            <textarea id="wmd-input" class="wmd-input" name="post-text" cols="92" rows="15" tabindex="101" data-min-length=""></textarea>
+        </div>
+    </div>
+
+    <div class="fl" style="margin-top: 8px; height:24px;">&nbsp;</div>
+    <div id="draft-saved" class="draft-saved community-option fl" style="margin-top: 8px; height:24px; display:none;">draft saved</div>
+
+    <div id="draft-discarded" class="draft-discarded community-option fl" style="margin-top: 8px; height:24px; display:none;">draft discarded</div>
+
+
+
+    <div id="wmd-preview" class="wmd-preview"></div>
+    <div></div>
+    <div class="edit-block">
+        <input id="fkey" name="fkey" type="hidden" value="c8825083cc8f9bd9412bfbfa4961d948">
+        <input id="author" name="author" type="text">
+    </div>
+
+
+
+</div>
+							<div style="position: relative;">
+								
+            <div class="form-item dno new-post-login">
+        
+                <div class="new-login-form">
+                    <div class="new-login-left">
+                        <h3>Sign up or <a id="login-link" href="/users/login?returnurl=%2fquestions%2f3536153%2fc-dynamically-growing-array%23new-answer">log in</a></h3>
+                        <script>
+                            StackExchange.ready(function () {
+                                StackExchange.helpers.onClickDraftSave('#login-link');
+                            });
+                        </script>
+                        <div class="preferred-login google-login">
+                            <p><span class="icon"></span><span>Sign up using Google</span></p>
+                        </div>
+                        <div class="preferred-login facebook-login">
+                            <p><span class="icon"></span><span>Sign up using Facebook</span></p>
+                        </div>
+                        <div class="preferred-login stackexchange-login">
+                            <p><span class="icon"></span><span>Sign up using Stack Exchange</span></p>
+                        </div>
+                    </div>
+                    <input type="hidden" name="manual-openid" class="manual-openid" />
+                    <input type="hidden" name="use-facebook" class="use-facebook" value="false" />
+                    <input type="hidden" name="use-google" class="use-google" value="false" />
+                    <input type="button" class="submit-openid" value="Submit" style="display:none" />
+                    <div class="new-login-right">
+                                <h3>Post as a guest</h3>
+    <div class="form-item">
+        <table>
+        <tr>
+                    <td class="vm">
+                <div>
+                    <label for="display-name">Name</label>
+                    <input id="display-name" name="display-name" type="text" size="30" maxlength="30" value="" tabindex="105">
+                </div>
+                <div>
+                    <label for="m-address">Email</label>
+                    <input id="m-address" name="m-address" type="email" size="30" maxlength="100" value="" tabindex="106" placeholder="required, but never shown" />
+                </div>
+            </td>
+        </tr>
+        </table>
+    </div>
+
+                    </div>
+                </div>
+            </div>
+            <script>
+                StackExchange.ready(
+                    function () {
+                        StackExchange.openid.initPostLogin('.new-post-login', '%2fquestions%2f3536153%2fc-dynamically-growing-array%23new-answer');
+                    }
+                );
+            </script>
+            <noscript>
+                        <h3>Post as a guest</h3>
+    <div class="form-item">
+        <table>
+        <tr>
+                    <td class="vm">
+                <div>
+                    <label for="display-name">Name</label>
+                    <input id="display-name" name="display-name" type="text" size="30" maxlength="30" value="" tabindex="105">
+                </div>
+                <div>
+                    <label for="m-address">Email</label>
+                    <input id="m-address" name="m-address" type="email" size="30" maxlength="100" value="" tabindex="106" placeholder="required, but never shown" />
+                </div>
+            </td>
+        </tr>
+        </table>
+    </div>
+
+            </noscript>
+							</div>
+           
+															<div class="form-submit cbt">
+									<input id="submit-button" type="submit" value="Post Your Answer" tabindex="110">
+									<a href="#" class="discard-answer dno">discard</a>
+
+<p class="privacy-policy-agreement">
+By posting your answer, you agree to the <a href='http://stackexchange.com/legal/privacy-policy' target='_blank'>privacy policy</a> and <a href='http://stackexchange.com/legal/terms-of-service' target='_blank'>terms of service</a>.</p>
+<input type="hidden" name="legalLinksShown" value="1" />								</div>
+						</form>
+
+
+
+						<h2 class="bottom-notice" data-loc="1">
+Not the answer you&#39;re looking for?							Browse other questions tagged <a href="/questions/tagged/c" class="post-tag" title="show questions tagged &#39;c&#39;" rel="tag">c</a> <a href="/questions/tagged/dynamic-arrays" class="post-tag" title="show questions tagged &#39;dynamic-arrays&#39;" rel="tag">dynamic-arrays</a>  or <a href="/questions/ask">ask your own question</a>.						</h2>
+			</div>
+		</div>
+				<div id="sidebar" class="show-votes">
+						    <div class="module question-stats">
+			        <table id="qinfo">
+			            <tr>
+			                <td>
+			                    <p class="label-key">asked</p>
+			                </td>
+			                <td style="padding-left: 10px">
+			                    <p class="label-key" title="2010-08-21 03:23:53Z"><b>4 years ago</b></p>
+			                </td>
+			            </tr>
+			            <tr>
+			                <td>
+			                    <p class="label-key">viewed</p>
+			                </td>
+
+			                <td style="padding-left: 10px">
+			                    <p class="label-key">
+			                        <b>50954 times</b>
+			                    </p>
+			                </td>
+			            </tr>
+			                <tr>
+			                    <td>
+			                        <p class="label-key">active</p>
+			                    </td>
+			                    <td style="padding-left: 10px">
+			                        <p class="label-key"><b><a href="?lastactivity" class="lastactivity-link" title="2013-08-31 22:18:29Z">1 year ago</a></b></p>
+			                    </td>
+			                </tr>
+			        </table>
+			    </div>
+						
+			<script>
+                var ados = ados || {}; ados.run = ados.run || [];
+                ados.run.push(function () { ados_add_placement(22,8277,"adzerk1900217334",[17,2221]).setZone(45); });
+            </script>
+            <div class="everyonelovesstackoverflow" id="adzerk1900217334">
+            </div>
+        <div id="hireme">
+            <script>
+;(function(n){var o=20,b="#sidebar [id^='adzerk'].everyonelovesstackoverflow",s="div#hireme,div.hireme",r=setTimeout,f=clearTimeout,t=null,h=!1,e=null,u,c=n.adurl,k=n.azw,d=n.azt,l=Array.prototype,a=l.map,g=l.forEach,v=function(){return(new Date).getTime()},nt=v(),i=function(n){return document.querySelectorAll(n)},tt=function(n){var t={},r=window.StackExchange,e=decodeURIComponent,u,f;return n.length>1&&n.substr(1).split("&").forEach(function(n){var t=n.split("=");this[e(t[0])]=e(t[1])},t),f=t.ac||t.accountid||r&&r.options&&r.options.user&&r.options.user.accountId,f&&(t.ac=f),t.tags||(u=a.call(i(".post-taglist .post-tag"),function(n){return n.innerText}),u.length>0&&(t.tags=u.join(";"))),n==="#large"&&(t.l=1),n==="#abort"&&(t.abort=1),t},y=function(n){return typeof n=="string"&&(n=i(n)),n.length!==0&&n[0].innerHTML.replace(/\s+/g,"").length>0},p=function(n,r){if(!h){h=!0;var l=i(s),y=document,p=encodeURIComponent,w,o,b,e,u;f(t);l.length>0&&((n.l||i("#careersadsdoublehigh").length>0)&&(n.l=1),u=a.call(l,function(n){return"d="+n.id}).join("&"),w=["l","ip","ac","eng","prov","tags","theme","remote","seed"],o=Object.keys(n).filter(function(n){return w.indexOf(n)!==-1}).map(function(t){return p(t)+"="+p(n[t])}).join("&"),o&&(u+="&"+o),r&&(u+="&azt=true"),b=v()-nt,u+="&lw="+b,e=y.createElement("script"),e.type="text/javascript",e.src=c+(c.indexOf("?")===-1?"?":"&")+u,y.body.appendChild(e),window.calculonPlacerStart=(new Date).getTime())}},it=function(n){y(n)||(g.call(i(n),function(n){n.parentNode.removeChild(n)}),t&&f(t))},w=function(n){y(b)?(e&&f(e),p(n)):t=r(w,o,n)};(u=tt(location.hash),u.abort)||(k&&(e=r(p,d,u,!0)),t=r(w,o,u),r(it,2e3,s))}).apply(null, [{"azw":false,"azt":2000,"adurl":"//clc.stackoverflow.com/j/p"}])            </script>
+        </div>
+			<div class="module" id="chat-feature">
+    
+
+    
+<h4><a href="http://chat.stackoverflow.com" id="h-chat-link">Visit Chat</a></h4>
+
+<div class="related" id="ad502-rooms"></div>
+<script>
+// <!--
+    StackExchange.ready(
+    function () {
+        var options = {
+            chatUrl: 'http://chat.stackoverflow.com',
+            reloadUrl: '/api/recent-chat',
+            preloadData: {"activeUsers":154,"activeRooms":57,"rooms":[{"name":"JavaScript\u003cLounge\u003e","id":17,"lastPost":1438876537,"posts":2790336,"users":[{"name":"Trasiva","id":3499931,"emailhash":"22044185d1dda63f8f1e43f984fc6079","lastPost":1438876499},{"name":"rlemon","id":829835,"emailhash":"!http://i.stack.imgur.com/y9osx.jpg?s=128\u0026g=1","lastPost":1438876496},{"name":"Luggage","id":956900,"emailhash":"4416acf0ee6259443ee3cca16d894d14","lastPost":1438876484},{"name":"thePetProjectProgrammer","id":3786065,"emailhash":"baf3d0cf84168949ed56c93005fe95c3","lastPost":1438876429},{"name":"Nick","id":1408759,"emailhash":"!http://i.stack.imgur.com/yKLlM.png?s=128\u0026g=1","lastPost":1438876357},{"name":"Hatter is Mad","id":2620028,"emailhash":"!http://i.stack.imgur.com/UmUPu.jpg?s=128\u0026g=1","lastPost":1438876348},{"name":"Jhawins","id":1596138,"emailhash":"!http://i.stack.imgur.com/Ph38Z.jpg?s=128\u0026g=1","lastPost":1438876337}],"messages":[{"date":1438876537,"user":"Nick","userid":1408759}],"singleImage":false,"tags":["ecmascript","es6","iojs","jabbascript","javascript","nodejs","promises"]},{"name":"PHP","id":11,"lastPost":1438876543,"posts":2016600,"users":[{"name":"David Graham","id":1110941,"emailhash":"!http://i.stack.imgur.com/Kx9n6.jpg?s=128\u0026g=1","lastPost":1438876509},{"name":"Abe","id":4251625,"emailhash":"!http://i.stack.imgur.com/XUshi.jpg?s=128\u0026g=1","lastPost":1438876506},{"name":"Ronni Skansing","id":924016,"emailhash":"!http://i.stack.imgur.com/NC0E1.jpg?s=128\u0026g=1","lastPost":1438876505},{"name":"rlemon","id":829835,"emailhash":"!http://i.stack.imgur.com/y9osx.jpg?s=128\u0026g=1","lastPost":1438876408},{"name":"Florian Margaine","id":851498,"emailhash":"138a5bfc83f7df06b2701ccd722531c3","lastPost":1438876327},{"name":"Orangepill","id":2364629,"emailhash":"de4a0d66e90ed755f6dc96e201a784d5","lastPost":1438876027},{"name":"samaYo","id":1640606,"emailhash":"!http://i.stack.imgur.com/e4I7Z.jpg?s=128\u0026g=1","lastPost":1438875679}],"messages":[{"date":1438876543,"user":"Danack","userid":778719}],"singleImage":false,"tags":["php"]}]} 
+        };
+
+        StackExchange.chatAd.init(options);
+    });
+// -->
+</script>
+
+</div>  
+    
+            <div class="module sidebar-linked">
+	<h4 id="h-linked">Linked</h4>
+	<div class="linked" data-tracker="lq=1">
+<div class="spacer">
+	<a href="/q/8718616" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes answered-accepted default">0</div>
+	</a>
+	<a href="/questions/8718616/how-to-read-unknown-number-of-floats-from-a-file" class="question-hyperlink">How to read unknown number of floats from a file?</a>
+</div><div class="spacer">
+	<a href="/q/20335725" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes  default">-5</div>
+	</a>
+	<a href="/questions/20335725/reading-in-to-a-character-array-of-unknown-size" class="question-hyperlink">Reading in to a character array of unknown size</a>
+</div><div class="spacer">
+	<a href="/q/28125261" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes  default">0</div>
+	</a>
+	<a href="/questions/28125261/how-to-dynamically-set-the-size-of-char-array-c" class="question-hyperlink">How to dynamically set the size of char array C</a>
+</div><div class="spacer">
+	<a href="/q/3456446" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes  default">10</div>
+	</a>
+	<a href="/questions/3456446/a-good-c-equivalent-of-stl-vector" class="question-hyperlink">A good C equivalent of STL vector?</a>
+</div><div class="spacer">
+	<a href="/q/2937409" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes answered-accepted default">4</div>
+	</a>
+	<a href="/questions/2937409/resizing-an-array-with-c" class="question-hyperlink">resizing an array with C</a>
+</div><div class="spacer">
+	<a href="/q/16260377" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes  default">0</div>
+	</a>
+	<a href="/questions/16260377/is-there-a-way-to-initialize-an-array-without-defining-the-size" class="question-hyperlink">Is there a way to initialize an array without defining the size</a>
+</div><div class="spacer">
+	<a href="/q/18850091" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes  default">-3</div>
+	</a>
+	<a href="/questions/18850091/array-sizes-error-in-c" class="question-hyperlink">Array sizes error in C</a>
+</div><div class="spacer">
+	<a href="/q/16267388" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes answered-accepted default">1</div>
+	</a>
+	<a href="/questions/16267388/c-dynamic-array-inserting-in-the-middle" class="question-hyperlink">C Dynamic Array Inserting in the Middle</a>
+</div><div class="spacer">
+	<a href="/q/23019576" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes answered-accepted default">-1</div>
+	</a>
+	<a href="/questions/23019576/how-we-can-insert-array-elements-when-array-size-is-already-fixed-in-c" class="question-hyperlink">How we can insert array elements when array size is already fixed in C?</a>
+</div><div class="spacer">
+	<a href="/q/25650111" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes answered-accepted default">0</div>
+	</a>
+	<a href="/questions/25650111/dynamic-allocation-of-memory-for-an-array-in-c" class="question-hyperlink">Dynamic allocation of memory for an array in C</a>
+</div>					<div class="spacer more">
+				<a href="/questions/linked/3536153">see more linked questions…</a>
+			</div>
+	</div>
+</div>
+
+				<div class="module sidebar-related">
+					<h4 id="h-related">Related</h4>
+                    <div class="related js-gps-related-questions" data-tracker="rq=1">
+                        <div class="spacer">
+<a href="/q/5221094" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes answered-accepted default">3
+    </div>
+</a><a href="/questions/5221094/c-dynamic-arrays" class="question-hyperlink">C - dynamic arrays</a>
+</div>
+<div class="spacer">
+<a href="/q/7097678" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes answered-accepted default">4
+    </div>
+</a><a href="/questions/7097678/removing-elements-from-dynamic-arrays" class="question-hyperlink">Removing elements from dynamic arrays</a>
+</div>
+<div class="spacer">
+<a href="/q/7191266" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes answered-accepted default">1
+    </div>
+</a><a href="/questions/7191266/passing-2-d-array-with-dynamic-size-between-functions-in-c" class="question-hyperlink">Passing 2-D array with dynamic size between functions in C/++</a>
+</div>
+<div class="spacer">
+<a href="/q/13746852" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes answered-accepted default">2
+    </div>
+</a><a href="/questions/13746852/malloc-array-of-structs-in-a-struct" class="question-hyperlink">malloc array of structs in a struct</a>
+</div>
+<div class="spacer">
+<a href="/q/20043951" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes answered-accepted default">1
+    </div>
+</a><a href="/questions/20043951/reading-strings-from-a-txt-file-into-dynamic-arrays" class="question-hyperlink">Reading strings from a .txt file into dynamic arrays</a>
+</div>
+<div class="spacer">
+<a href="/q/20337608" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes default">-2
+    </div>
+</a><a href="/questions/20337608/is-a-dynamic-array-of-void-pointers-a-performance-concern-for-game-development-i" class="question-hyperlink">Is a dynamic array of void pointers a performance concern for game development in C?</a>
+</div>
+<div class="spacer">
+<a href="/q/25917593" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes default">2
+    </div>
+</a><a href="/questions/25917593/how-to-declare-2d-c-arrays-dynamically-in-cython" class="question-hyperlink">How to declare 2D c-arrays dynamically in Cython</a>
+</div>
+<div class="spacer">
+<a href="/q/26444768" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes answered-accepted default">0
+    </div>
+</a><a href="/questions/26444768/realloc-chews-up-string-array-during-recursive-storage-of-dir-filenames" class="question-hyperlink">Realloc chews up string array during recursive storage of dir/filenames</a>
+</div>
+<div class="spacer">
+<a href="/q/28126164" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes answered-accepted default">0
+    </div>
+</a><a href="/questions/28126164/dynamically-growing-array-of-char-issues-c" class="question-hyperlink">Dynamically growing array of char issues C</a>
+</div>
+<div class="spacer">
+<a href="/q/29493725" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes default">1
+    </div>
+</a><a href="/questions/29493725/dynamic-array-of-structs-inside-of-struct-in-kernel-module" class="question-hyperlink">Dynamic array of structs inside of struct (in kernel module)</a>
+</div>
+
+                    </div>
+				</div>
+            
+<div id="hot-network-questions" class="module">
+    <h4>
+        <a href="//stackexchange.com/questions?tab=hot" 
+           class="js-gps-track" 
+           data-gps-track="posts_hot_network.click({ item_type:1, location:11 })">
+            Hot Network Questions
+        </a>
+    </h4>
+    <ul>
+            <li >
+                <div class="favicon favicon-ell" title="English Language Learners Stack Exchange"></div><a href="http://ell.stackexchange.com/questions/63628/why-is-in-the-shape-of-ellipse-ungrammatical" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:481 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Why is &quot;in the shape of ellipse&quot; ungrammatical?
+                </a>
+
+            </li>
+            <li >
+                <div class="favicon favicon-mathoverflow" title="MathOverflow"></div><a href="http://mathoverflow.net/questions/213165/ranks-of-elliptic-curves-depend-only-on-the-field" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:504 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Ranks of elliptic curves depend only on the field?
+                </a>
+
+            </li>
+            <li >
+                <div class="favicon favicon-aviation" title="Aviation Stack Exchange"></div><a href="http://aviation.stackexchange.com/questions/17591/why-is-a-part-from-a-boeing-777-being-analysed-by-airbus" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:528 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Why is a part from a Boeing 777 being analysed by Airbus?
+                </a>
+
+            </li>
+            <li >
+                <div class="favicon favicon-programmers" title="Programmers Stack Exchange"></div><a href="http://programmers.stackexchange.com/questions/291950/are-types-of-data-like-int-char-data-type-identifiers-stored-in-ram-when-a-c" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:131 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Are types of data like &quot;int&quot; &quot;char&quot; data type identifiers stored in RAM when a C program executes?
+                </a>
+
+            </li>
+            <li >
+                <div class="favicon favicon-unix" title="Unix &amp; Linux Stack Exchange"></div><a href="http://unix.stackexchange.com/questions/220551/bash-how-many-nested-sessions-deep" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:106 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Bash: How many nested sessions deep?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-worldbuilding" title="Worldbuilding Stack Exchange"></div><a href="http://worldbuilding.stackexchange.com/questions/21814/wooden-sticks-are-the-only-allowed-weapons-in-a-technological-society-how-far" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:579 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Wooden sticks are the only allowed weapons in a technological society - how far would these weapons have progressed by now?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-academia" title="Academia Stack Exchange"></div><a href="http://academia.stackexchange.com/questions/49967/how-to-build-relationships-with-colleagues-as-new-faculty-member" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:415 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    How to build relationships with colleagues as new faculty member?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-boardgames" title="Board &amp; Card Games Stack Exchange"></div><a href="http://boardgames.stackexchange.com/questions/25465/wake-the-dead-and-liliana" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:147 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Wake the Dead and Liliana
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-chemistry" title="Chemistry Stack Exchange"></div><a href="http://chemistry.stackexchange.com/questions/34782/is-44-5-mg-l-a-measurement-of-weight-or-volume" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:431 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Is 44.5 mg/L a measurement of weight or volume?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-stats" title="Cross Validated"></div><a href="http://stats.stackexchange.com/questions/164905/is-arxiv-popular-in-the-statistics-community" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:65 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Is ArXiv popular in the statistics community?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-apple" title="Ask Different"></div><a href="http://apple.stackexchange.com/questions/199039/in-os-x-mavericks-yosemite-is-it-better-to-put-apps-in-applications-or-in-ap" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:118 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    In OS X Mavericks/Yosemite, is it better to put apps in /Applications or in ~/Applications?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-diy" title="Home Improvement Stack Exchange"></div><a href="http://diy.stackexchange.com/questions/70386/leveling-drywall-patch" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:73 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Leveling drywall patch
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-opensource" title="Open Source Stack Exchange"></div><a href="http://opensource.stackexchange.com/questions/1464/are-licenses-affected-if-the-author-adds-conflicting-clauses-alongside" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:619 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Are licenses affected if the author adds conflicting clauses alongside?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-rpg" title="Role-playing Games Stack Exchange"></div><a href="http://rpg.stackexchange.com/questions/65786/can-an-animal-ally-animal-companion-have-an-animal-ally" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:122 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Can an Animal Ally/Animal Companion have an Animal Ally?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-networkengineering" title="Network Engineering Stack Exchange"></div><a href="http://networkengineering.stackexchange.com/questions/20463/icmp-response-to-source-ip-when-the-payload-of-ip-packet-is-not-icmp" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:496 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    ICMP response to source IP when the payload of IP packet is not ICMP?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-stackoverflow" title="Stack Overflow"></div><a href="http://stackoverflow.com/questions/31855433/multiple-conditions-in-an-if-clause" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:1 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Multiple conditions in an if clause
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-german" title="German Language Stack Exchange"></div><a href="http://german.stackexchange.com/questions/24885/when-did-pathetic-and-pathetisch-divert-in-meaning" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:253 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    When did pathetic and pathetisch divert in meaning?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-workplace" title="The Workplace Stack Exchange"></div><a href="http://workplace.stackexchange.com/questions/50766/employer-wants-work-loving-employees-and-not-paycheck-loving-employees" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:423 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Employer wants work-loving employees, and not paycheck-loving employees
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-stats" title="Cross Validated"></div><a href="http://stats.stackexchange.com/questions/164960/how-to-prove-that-an-event-occurs-infinitely-often-almost-surely" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:65 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    How to Prove that an Event Occurs Infinitely Often (Almost Surely)?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-scifi" title="Science Fiction &amp; Fantasy Stack Exchange"></div><a href="http://scifi.stackexchange.com/questions/97562/is-there-any-explanation-for-denethors-strange-behaviour-in-the-return-of-the-k" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:186 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Is there any explanation for Denethor&#39;s strange behaviour in the Return of the King?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-ell" title="English Language Learners Stack Exchange"></div><a href="http://ell.stackexchange.com/questions/63596/how-do-we-read-1906-in-this-text" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:481 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    How do we read &quot;1906&quot; in this text?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-stackoverflow" title="Stack Overflow"></div><a href="http://stackoverflow.com/questions/31856360/what-is-the-meaning-of-the-operator" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:1 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    What is the meaning of the ==&lt;&gt; operator?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-gis" title="Geographic Information Systems Stack Exchange"></div><a href="http://gis.stackexchange.com/questions/157255/how-to-integrate-rivers-with-forest-in-arcgis-for-desktop" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:79 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    How to Integrate rivers with forest in ArcGIS for Desktop?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-askubuntu" title="Ask Ubuntu"></div><a href="http://askubuntu.com/questions/657320/how-to-enable-file-creation-from-nautilus-right-click-menu-on-gnome" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:89 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    How to enable file creation from nautilus right-click menu on Gnome?
+                </a>
+
+            </li>
+    </ul>
+
+        <a href="#" 
+           class="show-more js-show-more js-gps-track" 
+           data-gps-track="posts_hot_network.click({ item_type:3, location:11 })">
+            more hot questions
+        </a>
+</div>
+		</div>
+	
+<div id="feed-link">
+    <div id="feed-link-text">
+        <a href="/feeds/question/3536153" title="feed of this question and its answers">
+            <span class="feed-icon"></span>question feed
+        </a>
+    </div>
+</div>	<script>
+StackExchange.ready(function(){$.get('/posts/3536153/ivc/89a0');});
+</script>
+<noscript>
+    <div><img src="/posts/3536153/ivc/89a0" class="dno" alt="" width="0" height="0"></div>
+</noscript><div style="display:none" id="prettify-lang">lang-c</div></div>
+
+
+
+        </div>
+    </div>
+    <div id="footer" class="categories">
+        <div class="footerwrap">
+            <div id="footer-menu">
+                <div class="top-footer-links">
+                        <a href="/tour">tour</a>
+                    <a href="/help">help</a>
+                    <a href="http://blog.stackoverflow.com?blb=1">blog</a>
+                        <a href="http://chat.stackoverflow.com">chat</a>
+                    <a href="http://data.stackexchange.com">data</a>
+                    <a href="http://stackexchange.com/legal">legal</a>
+                    <a href="http://stackexchange.com/legal/privacy-policy">privacy policy</a>
+                    <a href="http://stackexchange.com/work-here">work here</a>
+                    <a href="http://stackexchange.com/mediakit">advertising info</a>
+
+                    <a onclick='StackExchange.switchMobile("on")'>mobile</a>
+                    <b><a href="/contact">contact us</a></b>
+                        <b><a href="http://meta.stackoverflow.com">feedback</a></b>
+                    
+                </div>
+                <div id="footer-sites">
+                    <table>
+    <tr>
+            <th colspan=3>
+                Technology
+            </th>
+            <th >
+                Life / Arts
+            </th>
+            <th >
+                Culture / Recreation
+            </th>
+            <th >
+                Science
+            </th>
+            <th >
+                Other
+            </th>
+    </tr>
+    <tr>
+            <td>
+                <ol>
+                        <li><a href="//stackoverflow.com" title="professional and enthusiast programmers">Stack Overflow</a></li>
+                        <li><a href="//serverfault.com" title="system and network administrators">Server Fault</a></li>
+                        <li><a href="//superuser.com" title="computer enthusiasts and power users">Super User</a></li>
+                        <li><a href="//webapps.stackexchange.com" title="power users of web applications">Web Applications</a></li>
+                        <li><a href="//askubuntu.com" title="Ubuntu users and developers">Ask Ubuntu</a></li>
+                        <li><a href="//webmasters.stackexchange.com" title="pro webmasters">Webmasters</a></li>
+                        <li><a href="//gamedev.stackexchange.com" title="professional and independent game developers">Game Development</a></li>
+                        <li><a href="//tex.stackexchange.com" title="users of TeX, LaTeX, ConTeXt, and related typesetting systems">TeX - LaTeX</a></li>
+                            </ol></td><td><ol>
+                        <li><a href="//programmers.stackexchange.com" title="professional programmers interested in conceptual questions about software development">Programmers</a></li>
+                        <li><a href="//unix.stackexchange.com" title="users of Linux, FreeBSD and other Un*x-like operating systems.">Unix &amp; Linux</a></li>
+                        <li><a href="//apple.stackexchange.com" title="power users of Apple hardware and software">Ask Different (Apple)</a></li>
+                        <li><a href="//wordpress.stackexchange.com" title="WordPress developers and administrators">WordPress Development</a></li>
+                        <li><a href="//gis.stackexchange.com" title="cartographers, geographers and GIS professionals">Geographic Information Systems</a></li>
+                        <li><a href="//electronics.stackexchange.com" title="electronics and electrical engineering professionals, students, and enthusiasts">Electrical Engineering</a></li>
+                        <li><a href="//android.stackexchange.com" title="enthusiasts and power users of the Android operating system">Android Enthusiasts</a></li>
+                        <li><a href="//security.stackexchange.com" title="information security professionals">Information Security</a></li>
+                            </ol></td><td><ol>
+                        <li><a href="//dba.stackexchange.com" title="database professionals who wish to improve their database skills and learn from others in the community">Database Administrators</a></li>
+                        <li><a href="//drupal.stackexchange.com" title="Drupal developers and administrators">Drupal Answers</a></li>
+                        <li><a href="//sharepoint.stackexchange.com" title="SharePoint enthusiasts">SharePoint</a></li>
+                        <li><a href="//ux.stackexchange.com" title="user experience researchers and experts">User Experience</a></li>
+                        <li><a href="//mathematica.stackexchange.com" title="users of Mathematica">Mathematica</a></li>
+                        <li><a href="//salesforce.stackexchange.com" title="Salesforce administrators, implementation experts, developers and anybody in-between">Salesforce</a></li>
+                        <li><a href="//expressionengine.stackexchange.com" title="administrators, end users, developers and designers for ExpressionEngine&#174; CMS">ExpressionEngine&#174; Answers</a></li>
+                    
+                        <li>
+                            <a href="http://stackexchange.com/sites#technology" class="more">
+                                more (13)
+                            </a>
+                        </li>
+                </ol>
+            </td>
+            <td>
+                <ol>
+                        <li><a href="//photo.stackexchange.com" title="professional, enthusiast and amateur photographers">Photography</a></li>
+                        <li><a href="//scifi.stackexchange.com" title="science fiction and fantasy enthusiasts">Science Fiction &amp; Fantasy</a></li>
+                        <li><a href="//graphicdesign.stackexchange.com" title="Graphic Design professionals, students, and enthusiasts">Graphic Design</a></li>
+                        <li><a href="//movies.stackexchange.com" title="movie and tv enthusiasts">Movies &amp; TV</a></li>
+                        <li><a href="//cooking.stackexchange.com" title="professional and amateur chefs">Seasoned Advice (cooking)</a></li>
+                        <li><a href="//diy.stackexchange.com" title="contractors and serious DIYers">Home Improvement</a></li>
+                        <li><a href="//money.stackexchange.com" title="people who want to be financially literate">Personal Finance &amp; Money</a></li>
+                        <li><a href="//academia.stackexchange.com" title="academics and those enrolled in higher education">Academia</a></li>
+                    
+                        <li>
+                            <a href="http://stackexchange.com/sites#lifearts" class="more">
+                                more (9)
+                            </a>
+                        </li>
+                </ol>
+            </td>
+            <td>
+                <ol>
+                        <li><a href="//english.stackexchange.com" title="linguists, etymologists, and serious English language enthusiasts">English Language &amp; Usage</a></li>
+                        <li><a href="//skeptics.stackexchange.com" title="scientific skepticism">Skeptics</a></li>
+                        <li><a href="//judaism.stackexchange.com" title="those who base their lives on Jewish law and tradition and anyone interested in learning more">Mi Yodeya (Judaism)</a></li>
+                        <li><a href="//travel.stackexchange.com" title="road warriors and seasoned travelers">Travel</a></li>
+                        <li><a href="//christianity.stackexchange.com" title="committed Christians, experts in Christianity and those interested in learning more">Christianity</a></li>
+                        <li><a href="//gaming.stackexchange.com" title="passionate videogamers on all platforms">Arqade (gaming)</a></li>
+                        <li><a href="//bicycles.stackexchange.com" title="people who build and repair bicycles, people who train cycling, or commute on bicycles">Bicycles</a></li>
+                        <li><a href="//rpg.stackexchange.com" title="gamemasters and players of tabletop, paper-and-pencil role-playing games">Role-playing Games</a></li>
+                    
+                        <li>
+                            <a href="http://stackexchange.com/sites#culturerecreation" class="more">
+                                more (21)
+                            </a>
+                        </li>
+                </ol>
+            </td>
+            <td>
+                <ol>
+                        <li><a href="//math.stackexchange.com" title="people studying math at any level and professionals in related fields">Mathematics</a></li>
+                        <li><a href="//stats.stackexchange.com" title="people interested in statistics, machine learning, data analysis, data mining, and data visualization">Cross Validated (stats)</a></li>
+                        <li><a href="//cstheory.stackexchange.com" title="theoretical computer scientists and researchers in related fields">Theoretical Computer Science</a></li>
+                        <li><a href="//physics.stackexchange.com" title="active researchers, academics and students of physics">Physics</a></li>
+                        <li><a href="//mathoverflow.net" title="professional mathematicians">MathOverflow</a></li>
+                        <li><a href="//chemistry.stackexchange.com" title="scientists, academics, teachers and students">Chemistry</a></li>
+                        <li><a href="//biology.stackexchange.com" title="biology researchers, academics, and students">Biology</a></li>
+                    
+                        <li>
+                            <a href="http://stackexchange.com/sites#science" class="more">
+                                more (5)
+                            </a>
+                        </li>
+                </ol>
+            </td>
+            <td>
+                <ol>
+                        <li><a href="//stackapps.com" title="apps, scripts, and development with the Stack Exchange API">Stack Apps</a></li>
+                        <li><a href="//meta.stackexchange.com" title="meta-discussion of the Stack Exchange family of Q&amp;A websites">Meta Stack Exchange</a></li>
+                        <li><a href="//area51.stackexchange.com" title="proposing new sites in the Stack Exchange network">Area 51</a></li>
+                        <li><a href="//careers.stackoverflow.com">Stack Overflow Careers</a></li>
+                    
+                </ol>
+            </td>
+    </tr>
+</table>
+                </div>
+            </div>
+
+            <div id="copyright">
+                site design / logo &#169; 2015 Stack Exchange Inc; user contributions licensed under <a href="http://creativecommons.org/licenses/by-sa/3.0/" rel="license">cc by-sa 3.0</a> 
+                with <a href="http://blog.stackoverflow.com/2009/06/attribution-required/" rel="license">attribution required</a>
+            </div>
+            <div id="svnrev">
+                rev 2015.8.6.2781
+            </div>
+            
+        </div>
+    </div>
+    <noscript>
+        <div id="noscript-warning">Stack Overflow works best with JavaScript enabled<img src="http://pixel.quantserve.com/pixel/p-c1rF4kxgLUzNc.gif" alt="" class="dno"></div>
+    </noscript>
+<script>var p = "http", d = "static"; if (document.location.protocol == "https:") { p += "s"; d = "engine"; } var z = document.createElement("script"); z.type = "text/javascript"; z.async = true; z.src = p + "://" + d + ".adzerk.net/ados.js"; var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(z, s);</script>
+<script>
+    var ados = ados || {};
+    ados.run = ados.run || [];
+    ados.run.push(function () { ados_setKeywords('c,dynamic-arrays');; ados_load(); });         
+</script>
+
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () { (i[r].q = i[r].q || []).push(arguments) }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m);
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+        ga('create', 'UA-5620270-1');        
+        
+        ga('set', 'dimension2', '|c|dynamic-arrays|');         
+        ga('send', 'pageview');
+        var _qevents = _qevents || [],
+            _comscore = _comscore || [];
+        (function () {
+            var ssl='https:'==document.location.protocol,
+                s=document.getElementsByTagName('script')[0],
+                qc=document.createElement('script');
+            qc.async=true;
+            qc.src=(ssl?'https://secure':'http://edge')+'.quantserve.com/quant.js';
+            s.parentNode.insertBefore(qc, s);
+            var sc=document.createElement('script');
+            sc.async=true;
+            sc.src=(ssl?'https://sb':'http://b') + '.scorecardresearch.com/beacon.js';
+            s.parentNode.insertBefore(sc, s);
+        })();
+        _comscore.push({ c1: "2", c2: "17440561" });
+        _qevents.push({ qacct: "p-c1rF4kxgLUzNc" });
+    </script>            
+    </body>
+</html>
