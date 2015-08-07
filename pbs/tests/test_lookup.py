@@ -5,52 +5,29 @@ import os
 from textwrap import dedent
 
 import mock
-import requests.exceptions
 from nose.tools import (assert_equal, assert_raises, assert_regexp_matches,
                         assert_true)
 
 import pbs.lookup
 
 
-@mock.patch('requests.get')
-def test_get_result(mock_get):
-    """
-    How is a request performed for the search of a query
-    """
-    mock_response = mock.MagicMock()
-    mock_response.text = "I have no idea"
-    mock_get.return_value = mock_response
-    response = pbs.lookup.get_result("How to do something in C")
-    assert_equal(response, "I have no idea")
-
-
-@mock.patch('requests.get')
-def test_get_result_wrong(mock_get):
-    """
-    What happens in case the request goes wrong
-    """
-    mock_get.side_effect = requests.exceptions.ConnectionError("Boom")
-    assert_not_raises(
-        requests.exceptions.ConnectionError, pbs.lookup.get_result, "Whatever")
-
-
-@mock.patch('pbs.lookup.get_result')
-def test_get_links(mock_results):
+@mock.patch('pbs.lookup.Page.retrieve')
+def test_get_links(mock_retrieve):
     """
     How are search hits split from the single results page
     """
     query = "Finalize object in Scala"
-    # these were the answer on August 5 2015
-    mock_results.return_value = open(os.path.join(
-        'pbs', 'tests', 'test_lookup.dat')).read()
-    links = pbs.lookup.get_links(query)
+    # these were the answers on August 5 2015
+    mock_retrieve.return_value = read_fixed_data('test_lookup.dat')
+    search_hits = pbs.lookup.get_search_hits(query)
+    links = search_hits.links
     assert_equal(10, len(links))
     expected_regexp = (
-        r'/url\?q='  # matched literally
-        r'http://stackoverflow\.com'  # matched literally with escaped dot
-        r'/questions/\d+'  # question id: an integer with one or more digits
-        r'/[a-z\-]+'  # question title: lowercase letters and hyphens
-        r'&sa=U&ved=\w{40}&usg=\S{34}'  # params, including two hashes
+        r'/url\?q='                     # matched literally
+        r'http://stackoverflow\.com'    # matched literally with escaped dot
+        r'/questions/\d+'               # question id
+        r'/[a-z\-]+'                    # question title
+        r'&sa=U&ved=\w{40}&usg=\S{34}'  # params: two hashes
     )
     for link in links:
         assert_regexp_matches(link, expected_regexp)
@@ -70,19 +47,17 @@ def test_get_links(mock_results):
         assert_true(title in link)
 
 
-@mock.patch('pbs.lookup.get_result')
-def test_get_answer(mock_results):
+@mock.patch('pbs.lookup.Page.retrieve')
+def test_get_answer(mock_retrieve):
     """
     How to parse an answer from a set of search results
     """
     query = "define a dynamically growing array in C"
     # these were the results on August 6 2015
-    mock_results.side_effect = [
-        open(os.path.join(os.getcwd(), 'pbs', 'tests',
-                          'test_lookup_c.dat')).read(),
-        open(os.path.join(os.getcwd(), 'pbs', 'tests',
-                          'test_answer_c.dat')).read()]
-    links = pbs.lookup.get_links(query)
+    mock_retrieve.side_effect = [
+        read_fixed_data('test_lookup_c.dat'),
+        read_fixed_data('test_answer_c.dat')]
+    links = pbs.lookup.get_search_hits(query)
     answer = pbs.lookup.get_answer(links)
     expected = dedent("""\
     typedef struct {
@@ -113,18 +88,16 @@ def test_get_answer(mock_results):
     assert_equal(expected, answer)
 
 
-@mock.patch('pbs.lookup.get_result')
-def test_get_answer_no_code(mock_results):
+@mock.patch('pbs.lookup.Page.retrieve')
+def test_get_answer_no_code(mock_retrieve):
     """
     What happens when the answer selected does not contain code
     """
     query = "Finalize object in Scala"
-    mock_results.side_effect = [
-        open(os.path.join(os.getcwd(), 'pbs', 'tests',
-                          'test_lookup.dat')).read(),
-        open(os.path.join(os.getcwd(), 'pbs', 'tests',
-                          'test_answer.dat')).read()]
-    links = pbs.lookup.get_links(query)
+    mock_retrieve.side_effect = [
+        read_fixed_data('test_lookup.dat'),
+        read_fixed_data('test_answer.dat')]
+    links = pbs.lookup.get_search_hits(query)
     answer = pbs.lookup.get_answer(links)
     expected = (
         "You might be interested to check out Josh Suereth's scala-arm "
@@ -138,6 +111,38 @@ def test_get_answer_no_code(mock_results):
     assert_equal(expected, answer)
 
 
+@mock.patch('pbs.lookup.get_search_hits')
+@mock.patch('pbs.lookup.get_answer')
+def test_search(mock_answer, mock_search_hits):
+    """
+    What are the steps of a search
+
+    - Searching hits for the query
+    - Retrieving the answer given in those hits
+    """
+    query = "whatever"
+    hits = ["first hit", "second hit"]
+    mock_search_hits.return_value = hits
+    pbs.lookup.search(query)
+    mock_search_hits.assert_called_once_with(query)
+    mock_answer.assert_called_once_with(hits)
+
+
+@mock.patch('pbs.lookup.Page.retrieve')
+@mock.patch('pbs.lookup.get_search_hits')
+def test_search_no_answer(mock_search_hits, mock_retrieve):
+    """
+    What happens if there is no answer given to a specific query
+    """
+    query = "asdffgdfg"
+    hits = "not valid url"
+    mock_search_hits.first_link.return_value = hits
+    mock_retrieve.return_value = (
+        "<html><head></head><body>404 Not Found</body></html>")
+    answer = pbs.lookup.search(query)
+    assert_equal(answer, pbs.lookup.NO_ANSWER_MSG)
+
+
 def assert_not_raises(exception, func, *args, **kwargs):
     """
     Asserts that a function `func` called with `args` and `kwargs` does not
@@ -147,3 +152,8 @@ def assert_not_raises(exception, func, *args, **kwargs):
                   assert_raises,
                   exception,
                   func, *args, **kwargs)
+
+
+def read_fixed_data(filename):
+    """Returns the contents of a data file located under the test directory."""
+    return open(os.path.join(os.getcwd(), 'pbs', 'tests', filename)).read()

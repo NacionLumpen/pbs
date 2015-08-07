@@ -29,10 +29,15 @@ def parse(source_code_lines):
 
 
 def __source_to_object_name(file_path):
+    """
+    Transforms a filename from the convention of source code names to the
+    convention of object code names.
+    """
     return re.sub(r".c$", r".o", file_path)
 
 
 def ccompile(source_file_path):
+    """Compiles C source code into object code."""
     command = "cc -c {source_code} -o {object_code}".format(
         source_code=source_file_path,
         object_code=__source_to_object_name(source_file_path))
@@ -40,6 +45,7 @@ def ccompile(source_file_path):
 
 
 def clink(object_file_path):
+    """Links object code into a program."""
     command = "cc {object_code} -o {program}".format(
         object_code=object_file_path,
         program=re.sub(r".o$", r"", object_file_path))
@@ -47,10 +53,12 @@ def clink(object_file_path):
 
 
 def make(file_path):
+    """Compiles and links from source code into a program."""
     ccompile(file_path)
     object_path = __source_to_object_name(file_path)
     clink(object_path)
 
 
 def execute(command):
+    """This function executes the given command on the system shell."""
     sp.call(shlex.split(command))  # pragma: no cover

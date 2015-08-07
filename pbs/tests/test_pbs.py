@@ -14,7 +14,7 @@ from mock import patch, call
 import pbs.pbs as pbs
 
 
-def test_iparse():
+def test_parse():
     """
     How a single procedure with a single doc comment is parsed
     """
@@ -47,7 +47,9 @@ def test_parse_multiline():
         }
         """)
     doc, proc = pbs.parse(source_code.splitlines())
-    assert_equal(doc, ["this is a doc comment that stretches over", "more than one line"])
+    assert_equal(doc,
+                 ["this is a doc comment that stretches over",
+                  "more than one line"])
     assert_equal(proc, ["int main()"])
 
 
