@@ -5,6 +5,7 @@ import os
 import re
 import shlex
 import subprocess as sp
+from itertools import ifilter
 
 
 def parse(source_code_lines):
@@ -23,7 +24,7 @@ def parse(source_code_lines):
     procedure_pattern = re.compile(r"\w+ \w+\(.*\)")
     for line in source_code_lines:
         if line.startswith(comment_start):
-            doc.append(line.strip(comment_start))
+            doc.append(line.strip(comment_start).strip())
         elif procedure_pattern.match(line):
             proc.append(line)
     return doc, proc
@@ -53,13 +54,22 @@ def clink(object_file_path):
     execute(command)
 
 
+def is_object(filename):
+    pattern = re.compile(r"\w+.o$")
+    return pattern.match(filename) is not None
+
+
+def all_objects(directory):
+    return (fn for fn in ifilter(is_object, os.listdir(directory)))
+
+
 def clink_many(directory_path, program_name):
     """
     Links all object code files under a directory into a program with the given
     name.
     """
     command = "cc {object_code_list} -o {program}".format(
-        object_code_list=" ".join(fn for fn in os.listdir(directory_path)),
+        object_code_list=" ".join(all_objects(directory_path)),
         program=program_name)
     execute(command)
 
