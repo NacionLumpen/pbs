@@ -1,6 +1,7 @@
 """
 Functions to parse source code
 """
+import os
 import re
 import shlex
 import subprocess as sp
@@ -49,6 +50,17 @@ def clink(object_file_path):
     command = "cc {object_code} -o {program}".format(
         object_code=object_file_path,
         program=re.sub(r".o$", r"", object_file_path))
+    execute(command)
+
+
+def clink_many(directory_path, program_name):
+    """
+    Links all object code files under a directory into a program with the given
+    name.
+    """
+    command = "cc {object_code_list} -o {program}".format(
+        object_code_list=" ".join(fn for fn in os.listdir(directory_path)),
+        program=program_name)
     execute(command)
 
 
