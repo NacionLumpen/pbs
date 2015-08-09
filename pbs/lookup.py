@@ -30,7 +30,7 @@ class Page(object):
         try:
             return requests.get(self.url).text
         except requests.exceptions.ConnectionError:
-            logging.exception("Error on URL retrieval")
+            logging.exception("Error retrieving URL %s", self.url)
 
     def get_all_links(self):
         """Gets all links from the parsed contents."""
