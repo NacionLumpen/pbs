@@ -41,11 +41,11 @@ class TestPage(object):
 @mock.patch('pbs.lookup.Page.retrieve')
 def test_get_links(mock_retrieve):
     """
-    How are search hits split from the single results page
+    How are search hits links split from the results page
     """
     query = "Finalize object in Scala"
     # these were the answers on August 5 2015
-    mock_retrieve.return_value = read_fixed_data('test_lookup.dat')
+    mock_retrieve.return_value = read_fixed_data('search_hits_scala.html')
     search_hits = pbs.lookup.get_search_hits(query)
     links = search_hits.links
     nt.assert_equal(10, len(links))
@@ -82,8 +82,8 @@ def test_get_answer(mock_retrieve):
     query = "define a dynamically growing array in C"
     # these were the results on August 6 2015
     mock_retrieve.side_effect = [
-        read_fixed_data('test_lookup_c.dat'),
-        read_fixed_data('test_answer_c.dat')]
+        read_fixed_data('search_hits_c.html'),
+        read_fixed_data('answer_c.html')]
     links = pbs.lookup.get_search_hits(query)
     answer = pbs.lookup.get_answer(links)
     expected = dedent("""\
@@ -122,8 +122,8 @@ def test_get_answer_no_code(mock_retrieve):
     """
     query = "Finalize object in Scala"
     mock_retrieve.side_effect = [
-        read_fixed_data('test_lookup.dat'),
-        read_fixed_data('test_answer.dat')]
+        read_fixed_data('search_hits_scala.html'),
+        read_fixed_data('answer_scala.html')]
     links = pbs.lookup.get_search_hits(query)
     answer = pbs.lookup.get_answer(links)
     expected = (
@@ -183,4 +183,5 @@ def assert_not_raises(exception, func, *args, **kwargs):
 
 def read_fixed_data(filename):
     """Returns the contents of a data file located under the test directory."""
-    return open(os.path.join(os.getcwd(), 'pbs', 'tests', filename)).read()
+    return open(
+        os.path.join(os.getcwd(), 'pbs', 'tests', 'data', filename)).read()
