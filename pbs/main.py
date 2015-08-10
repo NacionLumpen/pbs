@@ -22,10 +22,9 @@ def main():
         with open(filename, 'r') as source_file:
             procedure_comments = parser.parse(source_file.readlines())
         for procedure, comments in procedure_comments.iteritems():
-            comments = " ".join(comments)
             answer = pbs.lookup.search(comments + " in " + language)
             logging.info(
-                "Found this answer for procedure %s described as '%s':\n %s",
+                "Found this answer for procedure '%s' described as '%s':\n %s",
                 procedure, comments, answer)
         pbs.build.ccompile(filename)
     pbs.build.clink_many(current_dir, project_name)

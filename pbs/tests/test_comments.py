@@ -31,7 +31,7 @@ class TestParser(unittest.TestCase):
             }
         """)
         result = self.parser.parse(source_code.splitlines())
-        assert_equal(result, {"int main()": ["this is a doc comment"]})
+        assert_equal(result, {"int main()": "this is a doc comment"})
 
     def test_parse_multiline_comment(self):
         """
@@ -49,8 +49,8 @@ class TestParser(unittest.TestCase):
         """)
         result = self.parser.parse(source_code.splitlines())
         assert_equal(result, {
-            "int main()": ["this is a doc comment that stretches over",
-                           "more than one line"]})
+            "int main()": ("this is a doc comment that stretches over "
+                           "more than one line")})
 
     def test_parse_multiple_procedures(self):
         """
@@ -78,9 +78,9 @@ class TestParser(unittest.TestCase):
         """)
         result = self.parser.parse(source_code.splitlines())
         assert_equal(result, {
-            "bool helper()": ["helper method to decide things"],
-            "int main()": ["this is a doc comment that stretches over",
-                           "more than one line"]})
+            "bool helper()": "helper method to decide things",
+            "int main()": ("this is a doc comment that stretches over "
+                           "more than one line")})
 
     def test_parse_reviewed_procedure(self):
         """

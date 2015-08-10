@@ -33,7 +33,7 @@ class Parser(object):
             if line.startswith(self.comment_start):
                 comments_buffer.append(line.strip(self.comment_start).strip())
             elif self.procedure_pattern.match(line) and not skip_procedure:
-                parsed[line] = comments_buffer
+                parsed[line] = " ".join(comments_buffer)
                 comments_buffer = []
                 skip_procedure = False
         return parsed
