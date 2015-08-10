@@ -1,5 +1,5 @@
 """
-Tests for the main library module of pbs
+Tests for the build module.
 """
 import tempfile
 import os
