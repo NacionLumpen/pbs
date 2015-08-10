@@ -14,45 +14,6 @@ from mock import patch, call
 import pbs.build
 
 
-def test_parse():
-    """
-    How a single procedure with a single doc comment is parsed
-    """
-    source_code = dedent("""\
-        /**
-         * this is a doc comment
-         */
-        int main()
-        {
-            return 0;
-        }
-        """)
-    doc, proc = pbs.build.parse(source_code.splitlines())
-    assert_equal(doc, ["this is a doc comment"])
-    assert_equal(proc, ["int main()"])
-
-
-def test_parse_multiline():
-    """
-    How a single procedure with more than one line in documentation is parsed
-    """
-    source_code = dedent("""\
-        /**
-         * this is a doc comment that stretches over
-         * more than one line
-         */
-        int main()
-        {
-            return 0;
-        }
-        """)
-    doc, proc = pbs.build.parse(source_code.splitlines())
-    assert_equal(doc,
-                 ["this is a doc comment that stretches over",
-                  "more than one line"])
-    assert_equal(proc, ["int main()"])
-
-
 class TestCompile(object):
     """
     How do you use the compile and link methods of pbs

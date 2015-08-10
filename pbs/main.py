@@ -1,7 +1,11 @@
+"""
+Main module
+"""
 import os
 import logging
 
 import pbs.build
+import pbs.comments
 import pbs.lookup
 
 logging.basicConfig(level=logging.INFO)
@@ -12,12 +16,14 @@ def main():
     """Main entry point."""
     current_dir = os.getcwd()
     project_name = os.path.basename(current_dir)
+    parser = pbs.comments.Parser()
     for filename in os.listdir(current_dir):
         with open(filename, 'r') as source_file:
-            doc, _ = pbs.build.parse(source_file.readlines())
-        for comment in doc:
-            answer = pbs.lookup.search(comment)
-            logging.info("Found this answer:\n %s", answer)
+            procedure_comments = parser.parse(source_file.readlines())
+        for procedure, comments in procedure_comments.iteritems():
+            answer = pbs.lookup.search(comments)
+            logging.info("Found this answer for procedure %s:\n %s",
+                         procedure, answer)
         pbs.build.ccompile(filename)
     pbs.build.clink_many(current_dir, project_name)
 

@@ -1,0 +1,28 @@
+"""
+Module to parse comments from source code.
+"""
+import re
+
+
+class Parser(object):
+    """
+    A Parser is in charge of splitting documentation comments from source code.
+    """
+    def __init__(self):
+        self.comment_start = " * "
+        self.procedure_pattern = re.compile(r"\w+ \w+\(.*\)")
+
+    def parse(self, source_code_lines):
+        """
+        Parses a list of source code lines into a dictionary keyed by
+        procedure, holding comment lines as lists.
+        """
+        parsed = {}
+        comments_buffer = []
+        for line in source_code_lines:
+            if line.startswith(self.comment_start):
+                comments_buffer.append(line.strip(self.comment_start).strip())
+            elif self.procedure_pattern.match(line):
+                parsed[line] = comments_buffer
+                comments_buffer = []
+        return parsed

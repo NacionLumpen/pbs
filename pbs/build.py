@@ -8,28 +8,6 @@ import subprocess as sp
 from itertools import ifilter
 
 
-def parse(source_code_lines):
-    """
-    Parse source code, splitting its contents into documentation and procedure
-    definitions
-
-    :param source_code_lines: a list of strings; each string is a line in the
-        original source code
-    :returns: two lists of strings; the first one contains the documentation
-        comments, the second one the procedure signatures.
-    """
-    doc = []
-    proc = []
-    comment_start = " * "
-    procedure_pattern = re.compile(r"\w+ \w+\(.*\)")
-    for line in source_code_lines:
-        if line.startswith(comment_start):
-            doc.append(line.strip(comment_start).strip())
-        elif procedure_pattern.match(line):
-            proc.append(line)
-    return doc, proc
-
-
 def __source_to_object_name(file_path):
     """
     Transforms a filename from the convention of source code names to the
