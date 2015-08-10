@@ -1,6 +1,8 @@
 Planetary Build System
 ======================
 
+[![Build Status](https://travis-ci.org/NacionLumpen/pbs.svg)](https://travis-ci.org/NacionLumpen/pbs)
+
 The Planetary Build System (PBS) is a build system that looks up any function
 or method that you have implemented in software community websites before
 building the source code into machine code. PBS looks up the documentation
