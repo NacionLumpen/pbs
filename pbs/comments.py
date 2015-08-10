@@ -2,12 +2,18 @@
 Module to parse comments from source code.
 """
 import re
+import os.path
 
 
 class Parser(object):
     """
     A Parser is in charge of splitting documentation comments from source code.
     """
+
+    LANGUAGE = {
+        ".c": "C"
+    }
+
     def __init__(self):
         self.comment_start = " * "
         self.reviewed_comment = self.comment_start + "@pbs: reviewed"
@@ -31,3 +37,10 @@ class Parser(object):
                 comments_buffer = []
                 skip_procedure = False
         return parsed
+
+    def infer_language(self, filename):
+        """
+        Infers the implementation language from a filename
+        """
+        _, extension = os.path.splitext(filename)
+        return self.LANGUAGE[extension]

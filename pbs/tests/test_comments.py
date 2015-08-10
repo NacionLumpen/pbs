@@ -100,3 +100,11 @@ class TestParser(unittest.TestCase):
         """)
         result = self.parser.parse(source_code.splitlines())
         assert_equal(result, {})
+
+    def test_parser_infers_language(self):
+        """
+        How to use the parser to infer the implementation language
+        """
+        filename = "main.c"
+        language = self.parser.infer_language(filename)
+        assert_equal("C", language)

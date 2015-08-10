@@ -18,11 +18,12 @@ def main():
     project_name = os.path.basename(current_dir)
     parser = pbs.comments.Parser()
     for filename in os.listdir(current_dir):
+        language = parser.infer_language(filename)
         with open(filename, 'r') as source_file:
             procedure_comments = parser.parse(source_file.readlines())
         for procedure, comments in procedure_comments.iteritems():
             comments = " ".join(comments)
-            answer = pbs.lookup.search(comments)
+            answer = pbs.lookup.search(comments + " in " + language)
             logging.info(
                 "Found this answer for procedure %s described as '%s':\n %s",
                 procedure, comments, answer)

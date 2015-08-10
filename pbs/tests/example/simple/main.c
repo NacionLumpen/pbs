@@ -1,5 +1,5 @@
 /**
- * How to make a no-op in C
+ * How to make a no-op
  */
 int main(int argc, const char *argv[])
 {
