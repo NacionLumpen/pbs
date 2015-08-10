@@ -47,7 +47,7 @@ def clink_many(directory_path, program_name):
     name.
     """
     command = "cc {object_code_list} -o {program}".format(
-        object_code_list=" ".join(all_objects(directory_path)),
+        object_code_list=" ".join(sorted(all_objects(directory_path))),
         program=program_name)
     execute(command)
 
