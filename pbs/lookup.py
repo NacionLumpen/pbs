@@ -40,8 +40,8 @@ class Page(object):
 
 class SearchHit(object):
     """
-    A SearchHit holds a Page with search hits. This object is responsible for
-    parsing all the URLs from the listed search hits.
+    A SearchHit holds a :class:`Page` with search hits. This object is
+    responsible for parsing all the URLs from the listed search hits.
     """
 
     def __init__(self, page):
@@ -56,7 +56,7 @@ class SearchHit(object):
     def first_link(self):
         """
         Returns the first link on the search hits page, and it removes the
-        bad prefix ('/url?q=') usually found in these links.
+        bad prefix (`/url?q=`) usually found in these links.
         """
         all_links = self.page.get_all_links()
         first_link = all_links[0]
@@ -65,7 +65,7 @@ class SearchHit(object):
 
 class Answer(object):
     """
-    An Answer is parsed from the contents of an :class Html:Html instance. It
+    An Answer holds a :class:`Page` with a community-approved answer. It
     has a plain text representation that is either the code contained or the
     natural text in the html, if no code can be found.
     """
