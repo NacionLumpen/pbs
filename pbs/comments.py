@@ -10,6 +10,7 @@ class Parser(object):
     """
     def __init__(self):
         self.comment_start = " * "
+        self.reviewed_comment = self.comment_start + "@pbs: reviewed"
         self.procedure_pattern = re.compile(r"\w+ \w+\(.*\)")
 
     def parse(self, source_code_lines):
@@ -19,10 +20,14 @@ class Parser(object):
         """
         parsed = {}
         comments_buffer = []
+        skip_procedure = False
         for line in source_code_lines:
+            if line == self.reviewed_comment:
+                skip_procedure = True
             if line.startswith(self.comment_start):
                 comments_buffer.append(line.strip(self.comment_start).strip())
-            elif self.procedure_pattern.match(line):
+            elif self.procedure_pattern.match(line) and not skip_procedure:
                 parsed[line] = comments_buffer
                 comments_buffer = []
+                skip_procedure = False
         return parsed

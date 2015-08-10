@@ -81,3 +81,22 @@ class TestParser(unittest.TestCase):
             "bool helper()": ["helper method to decide things"],
             "int main()": ["this is a doc comment that stretches over",
                            "more than one line"]})
+
+    def test_parse_reviewed_procedure(self):
+        """
+        How to mark a procedure to be skipped because its answer is already
+        reviewed.
+        """
+        source_code = dedent("""\
+            /**
+             * this is a doc comment
+             *
+             * @pbs: reviewed
+             */
+            int main()
+            {
+                return 0;
+            }
+        """)
+        result = self.parser.parse(source_code.splitlines())
+        assert_equal(result, {})
